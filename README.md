@@ -19,6 +19,9 @@
 
   para instalar los requerimientos necesarios
 
+  `cd src`
+  para pararnos en la carpeta src donde se encuentra `manage.py`
+
   y para correr la pagina
 
   `python manage.py runserver`
@@ -28,12 +31,13 @@
 
 # Como trabajar en el proyecto
   en la linea de comandos:
-    hacer un `git status` para confirmar que esats parado en la rama main
+    hacer un `git status` para confirmar que esats parado en la rama main y en la BASE del proyecto
     hacer un `git pull`para tener los datos actualizados
     hacer un `git switch -c {tu-nombre}/{nombre-de-tu-ticket}`
     y ya puedes comenzar tu trabajo!
     despues de probar tus cambios y funcionalidad corriendo el programa
     tienes que pushear tu codigo al repositorio remoto usando los siguientes comandos
+    Asegurate de estar en LA BASE del proyecto
     `git status` para ver los cambios realizados en rojo, significa que no estan commiteados
     `git add .` para seleccionar TODOS los cambios que hiciste, puedes hacer otro `git status` para ver que los cambios que quieres realizar estan ahora de color verde, significa que estan listos para un commit
     `git commit -m "tu mensaje especifico"` para commitear los cambios en tu rama local
