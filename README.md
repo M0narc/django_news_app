@@ -29,6 +29,8 @@
 # jira board
   `https://informatorio2024comision3grupo3.atlassian.net/jira/software/projects/PF/boards/1`
 
+  Por favor, atenerce a hacer lo que dice su ticket, no tocar de mas.
+
 # Como trabajar en el proyecto
   en la linea de comandos:
     hacer un `git status` para confirmar que esats parado en la rama main y en la BASE del proyecto
