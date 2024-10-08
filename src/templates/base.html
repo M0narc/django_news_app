@@ -1,0 +1,33 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Blog{% endblock %}</title>
+    
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content">
+        {% block content %}
+        <!-- Aquí va el contenido específico de cada página -->
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Mi Blog. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
