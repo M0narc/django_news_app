@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import os              # ----------------> DEJO ESTO COMO EJEMPLO
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-print(BASE_DIR)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.autor',
-    'apps.articulo',
+    'apps.Articulo',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [os.path.join(os.path.dirname(BASE_DIR), "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(os.path.dirname(BASE_DIR), 'db_sqlite3.db'),
     }
 }
 
@@ -125,12 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_BASE_DIR = BASE_DIR / "staticfiles"
-STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors" #PREGUNTAR A FRANCO
+STATICFILES_DIRS = ( os.path.join(os.path.dirname(BASE_DIR), 'static' ), )
+# STATICFILES_VENDOR_DIR = STATICFILES_DIRS / "vendors" #PREGUNTAR A FRANCO
 
 # Media -> Imagenes, audios, videos que van surgiendo o creciendo a lo largo de la ejecución.
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media' 
+MEDIA = '/media'
+MEDIA_ROOT = os.path.join( os.path.dirname(BASE_DIR), 'media' )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
