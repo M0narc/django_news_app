@@ -3,9 +3,31 @@ from.models import Autor
 
 # Register your models here.
 
-class AutorCustom(admin.ModelAdmin):
-    fields = ('id', 'nombre', 'apellido')
-    list_display = ('nombre', 'fecha_creacion')
-    search_fields = ('nombre', 'email')
+class AutorCustomAdmin(admin.ModelAdmin):
 
-admin.site.register(Autor, AutorCustom)
+    # Muestra los campos principales en la lista de autores
+    list_display = ('nombre', 
+                    'apellido', 
+                    'email', 
+                    'fecha_creacion', 
+                    'fecha_actualizacion')
+
+    # Agrega barra de búsqueda para buscar por nombre, apellido o email
+    search_fields = ('nombre', 
+                     'apellido', 
+                     'email')
+
+    # Define los campos para crear/editar un autor
+    fields = ('nombre', 
+              'apellido', 
+              'email', 
+              'biografia')
+
+    # Solo lectura para las fechas de creación y actualización
+    readonly_fields = ('fecha_creacion', 
+                       'fecha_actualizacion')
+
+    # Opcionalmente, puedes agregar filtros laterales para filtrar por fecha de creación
+    list_filter = ('fecha_creacion',)
+
+admin.site.register(Autor, AutorCustomAdmin)
