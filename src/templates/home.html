@@ -1,0 +1,21 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Inicio | Mi Blog{% endblock %}
+
+{% block content %}
+    <h1>Bienvenido a Mi Blog</h1>
+    <p>Este es el sitio web donde encontrarás los mejores artículos sobre diversas categorías.</p>
+
+    <section>
+        <h2>Artículos recientes</h2>
+        <ul>
+            {% for articulo in articulos %}
+                <li>
+                  
+                    <p>Por {{ articulo.autor.nombre }} {{ articulo.autor.apellido }} - Publicado el {{ articulo.fecha_publicada }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

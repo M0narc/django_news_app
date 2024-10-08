@@ -1,8 +1,9 @@
 from django.contrib import admin
 from.models import Autor
 
-# Register your models here.
+# el @ es un decorator
 
+@admin.register(Autor)
 class AutorCustomAdmin(admin.ModelAdmin):
 
     # Muestra los campos principales en la lista de autores
@@ -29,5 +30,3 @@ class AutorCustomAdmin(admin.ModelAdmin):
 
     # Opcionalmente, puedes agregar filtros laterales para filtrar por fecha de creación
     list_filter = ('fecha_creacion',)
-
-admin.site.register(Autor, AutorCustomAdmin)
