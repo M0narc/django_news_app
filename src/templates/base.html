@@ -1,4 +1,5 @@
 <!-- templates/base.html -->
+ {% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mi Blog{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    {% block link %}  {% endblock %}
 </head>
 <body>
     <!-- Navbar -->
@@ -22,7 +24,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; Footer a modificar</p>
+        <p>&copy;{% include 'footer/footer.html' %}</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
