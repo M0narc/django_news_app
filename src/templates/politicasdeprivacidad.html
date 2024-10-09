@@ -1,78 +1,62 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mi Blog{% endblock %}</title>
-    <link type='text/css' href='{% static "css/terminosypoliticas.css" %}' rel='stylesheet'/>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
-</head>
-<body class="bg-gray-100">
 
-<!-- Navbar -->
-    <header>
-        {% include "navbar/navbar.html" %}
-    </header>
+{% block title %}Políticas de privacidad{% endblock %}
 
-    <!-- Políticas de Privacidad -->
-    <div class="container">
-        <h1>Políticas de Protección de Datos Personales</h1>
-        <p>
-            Los datos personales (tal y como se detallan a continuación) que usted facilite al acceder, registrarse o suscribirse en TECNOTICIAS serán tratados para las finalidades que se detallan en esta política. TECNOTICIAS es el responsable del tratamiento de los datos de los usuarios y de los visitantes de sus plataformas.
-        </p>
+{% block link  %} <link type='text/css' href='{% static "css/terminosypoliticas.css" %}' rel='stylesheet'/> {% endblock %}
 
-        <h2>1 - Datos Personales</h2>
-        <p>
-            Son datos personales aquellos que el usuario facilite al acceder, registrarse o al suscribirse a la publicación de que se trate, así como aquellos que se generen durante su navegación por TECNOTICIAS y por el uso de sus productos / servicios / contenidos / suscripciones.
-        </p>
+{% block content %}
+<!-- Políticas de Privacidad -->
+<div class="container" id="cont">
+    <h1 class="random">Políticas de Protección de Datos Personales</h1>
+    <p>
+        Los datos personales (tal y como se detallan a continuación) que usted facilite al acceder, registrarse o suscribirse en TECNOTICIAS serán tratados para las finalidades que se detallan en esta política. TECNOTICIAS es el responsable del tratamiento de los datos de los usuarios y de los visitantes de sus plataformas.
+    </p>
 
-        <h2>2 - Finalidad y Legitimación del Tratamiento de Datos Personales</h2>
-        <p>
-            A continuación, se indican las finalidades para las que TECNOTICIAS tratará sus datos personales, así como la base jurídica que legitima el tratamiento para cada una de las referidas finalidades.
-        </p>
-        <ul>
-            <li>Gestión y control del registro del usuario en TECNOTICIAS.</li>
-            <li>Realización de acciones comerciales personalizadas.</li>
-            <li>Envío de comunicaciones comerciales o newsletters.</li>
-            <li>Análisis de las necesidades, gustos y preferencias del usuario.</li>
-        </ul>
+    <h2>1 - Datos Personales</h2>
+    <p>
+        Son datos personales aquellos que el usuario facilite al acceder, registrarse o al suscribirse a la publicación de que se trate, así como aquellos que se generen durante su navegación por TECNOTICIAS y por el uso de sus productos / servicios / contenidos / suscripciones.
+    </p>
 
-        <h2>3 - Destinatarios de los Datos Personales</h2>
-        <p>
-            En algunos casos, es necesario comunicar la información proporcionada a empresas que prestan servicios relacionados con tecnologías de la información o agencias de marketing.
-        </p>
+    <h2>2 - Finalidad y Legitimación del Tratamiento de Datos Personales</h2>
+    <p>
+        A continuación, se indican las finalidades para las que TECNOTICIAS tratará sus datos personales, así como la base jurídica que legitima el tratamiento para cada una de las referidas finalidades.
+    </p>
+    <ul>
+        <li>Gestión y control del registro del usuario en TECNOTICIAS.</li>
+        <li>Realización de acciones comerciales personalizadas.</li>
+        <li>Envío de comunicaciones comerciales o newsletters.</li>
+        <li>Análisis de las necesidades, gustos y preferencias del usuario.</li>
+    </ul>
 
-        <h2>4 - Conservación de los Datos Personales</h2>
-        <p>
-            Sus datos se conservarán mientras exista un interés mutuo en mantener el registro o mientras usted no ejerza su derecho de supresión, oposición o limitación del tratamiento.
-        </p>
+    <h2>3 - Destinatarios de los Datos Personales</h2>
+    <p>
+        En algunos casos, es necesario comunicar la información proporcionada a empresas que prestan servicios relacionados con tecnologías de la información o agencias de marketing.
+    </p>
 
-        <h2>5 - Derechos de los Interesados</h2>
-        <p>
-            La normativa confiere ciertos derechos sobre su información personal, como el acceso, actualización, rectificación, cese en el envío de publicidades, supresión, entre otros.
-        </p>
+    <h2>4 - Conservación de los Datos Personales</h2>
+    <p>
+        Sus datos se conservarán mientras exista un interés mutuo en mantener el registro o mientras usted no ejerza su derecho de supresión, oposición o limitación del tratamiento.
+    </p>
 
-        <h2>6 - Solicitud de Eliminación de Datos Personales</h2>
-        <p>
-            El usuario puede solicitar la eliminación de sus datos personales en cualquier momento mediante correo electrónico a la dirección datospersonales@tecnoticias.com.
-        </p>
+    <h2>5 - Derechos de los Interesados</h2>
+    <p>
+        La normativa confiere ciertos derechos sobre su información personal, como el acceso, actualización, rectificación, cese en el envío de publicidades, supresión, entre otros.
+    </p>
 
-        <h2>7 - Menores</h2>
-        <p>
-            Los servicios de TECNOTICIAS no están dirigidos a menores de 16 años. Si se detecta el registro de un menor, se procederá a cancelar el registro.
-        </p>
+    <h2>6 - Solicitud de Eliminación de Datos Personales</h2>
+    <p>
+        El usuario puede solicitar la eliminación de sus datos personales en cualquier momento mediante correo electrónico a la dirección datospersonales@tecnoticias.com.
+    </p>
 
-        <h2>Anexos</h2>
-        <p>
-            Estos anexos serán aplicables de acuerdo con el país de residencia del usuario.
-        </p>
-    </div>
+    <h2>7 - Menores</h2>
+    <p>
+        Los servicios de TECNOTICIAS no están dirigidos a menores de 16 años. Si se detecta el registro de un menor, se procederá a cancelar el registro.
+    </p>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy;{% include 'footer/footer.html' %}</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-</body>
-</html>
+    <h2>Anexos</h2>
+    <p>
+        Estos anexos serán aplicables de acuerdo con el país de residencia del usuario.
+    </p>
+</div>
+{% endblock %}
