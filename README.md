@@ -22,6 +22,9 @@
   `cd src`
   para pararnos en la carpeta src donde se encuentra `manage.py`
 
+  para ver las imagenes que tenemos de forma local usar el comando:
+  `python manage.py collectstatic`
+
   y para correr la pagina
 
   `python manage.py runserver`

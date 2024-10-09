@@ -126,7 +126,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_BASE_DIR = BASE_DIR / "staticfiles"
-STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors" #PREGUNTAR A FRANCO
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors" #FRANCO NO ME TOQUES EL SETTINGS CAPO
+
+# source for python manage.py collectstatic
+STATICFILES_DIRS =[
+    STATICFILES_BASE_DIR
+]
+
+STATIC_ROOT = BASE_DIR.parent / "local-cdn"
 
 # Media -> Imagenes, audios, videos que van surgiendo o creciendo a lo largo de la ejecución.
 MEDIA_URL = '/media/'
