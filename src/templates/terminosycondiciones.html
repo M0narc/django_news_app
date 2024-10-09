@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Blog{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100">
+
+<!-- Navbar -->
+    <header>
+        {% include "navbar/navbar.html" %}
+    </header>
+    <title>Términos y Condiciones de Uso - TECNOTICIAS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 5px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        ul {
+            margin: 10px 0 10px 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Términos y Condiciones de Uso</h1>
+
+    <h2>1. Datos Identificativos</h2>
+    <p><strong>Nombre:</strong> TECNOTICIAS</p>
+    <p><strong>Sede Social:</strong> Calle Ficticia 123, Ciudad Autónoma de Buenos Aires, Argentina</p>
+    <p><strong>Teléfono:</strong> +5411 12345678</p>
+    <p><strong>Mail de contacto:</strong> contacto@tecnoticias.com</p>
+    <p><strong>Datos de inscripción:</strong> Registrado ante la Inspección General de Justicia</p>
+    <p><strong>Dominio:</strong> https://www.tecnoticias.com</p>
+
+    <h2>2. Objeto y Ámbito de Aplicación</h2>
+    <p>Los presentes Términos y Condiciones regulan el acceso, navegación y uso del sitio web bajo el dominio tecnoticias.com, así como las responsabilidades derivadas de la utilización de sus contenidos.</p>
+    <p>Se entenderá que el acceso o la mera utilización del sitio web por parte del usuario implica la adhesión de este a los presentes Términos y Condiciones.</p>
+
+    <h2>3. Derechos de Propiedad Intelectual e Industrial</h2>
+    <p>TECNOTICIAS es titular de los derechos de propiedad intelectual e industrial del sitio web y de los contenidos disponibles a través del mismo.</p>
+    <p>No está permitido modificar, copiar, reproducir, o distribuir los contenidos sin autorización expresa de TECNOTICIAS.</p>
+
+    <h2>4. Utilización del Sitio Web</h2>
+    <p>El usuario se compromete a utilizar el sitio web de manera diligente y a no realizar actividades ilícitas, ilegales o contrarias a la buena fe y al orden público.</p>
+    <ul>
+        <li>No utilizar los contenidos con fines o efectos ilícitos.</li>
+        <li>No reproducir o distribuir los contenidos sin autorización.</li>
+        <li>El usuario es responsable de la custodia de sus credenciales de acceso.</li>
+    </ul>
+
+    <h2>5. Contenidos Generados por el Usuario</h2>
+    <p>Si el usuario envía contenido al sitio web, garantiza que es el titular de los derechos y que no infringe ningún derecho de terceros.</p>
+    <p>El usuario cede gratuitamente a TECNOTICIAS los derechos de explotación del contenido enviado.</p>
+
+    <h2>6. Responsabilidades y Garantías</h2>
+    <p>TECNOTICIAS no garantiza la exactitud ni la veracidad de los contenidos publicados en el sitio web. El uso y navegación es responsabilidad del usuario.</p>
+
+    <h2>7. Enlaces</h2>
+    <p>El sitio web puede contener enlaces a sitios de terceros, los cuales son gestionados por ellos y TECNOTICIAS no asume responsabilidad por el contenido o funcionamiento de dichos sitios.</p>
+
+    <h2>8. Duración y Modificación</h2>
+    <p>TECNOTICIAS se reserva el derecho a modificar los presentes Términos y Condiciones en cualquier momento, informando a los usuarios mediante la publicación de los mismos.</p>
+
+    <h2>9. Generalidades</h2>
+    <p>Los títulos de los apartados son meramente informativos y no afectarán la interpretación de los Términos y Condiciones.</p>
+
+    <h2>10. Jurisdicción</h2>
+    <p>Las relaciones entre TECNOTICIAS y el usuario se regirán por la legislación argentina. En caso de controversias, ambas partes se someten a la jurisdicción de los tribunales de la Ciudad Autónoma de Buenos Aires.</p>
+</div>
+<footer>
+    <p>&copy;{% include 'footer/footer.html' %}</p>
+</footer>
+</body>
+</html>
