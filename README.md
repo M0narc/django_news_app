@@ -54,3 +54,7 @@
   una vez terminado tu codigo, hay que verificar que tenemos todo el mismo codigo que hay en la rama `main`, para hacer eso tenemos que hacer un `git branch` en la consola y verificar que estamos en `main`, de no estarlo hacemos un `git checkout main` para pararnos en la rama main, usar nuevamente `git branch` para estar seguros, deberia aparecer una * al lado de main, se veria asi `*main`, ahi, realizar un git pull para traer todos los cambios, luego, volvemos a nuestra rama de trabajo, haciendo un `git checkout nombre-de-tu-rama` y realizamos un `git rebase main`, si no hay conflictos, hacemos otro `git push` a tu rama remota y creamos el pull request desde la pagina lleanando los campos que se encuentran ahi.
   en el caso de encontrar conflictos, resolverlos, verificar que la app funcione y ahi recien, hacer el `git push` a tu rama.
   Si tienen dudas, escribanme en discord.
+
+# TODO
+ - Despues podemos pasar todo el texto plano a .json para mejor legibilidad
+ - Arreglar el boton para cambiar a darkmode que esta junto a la barra de busqueda
