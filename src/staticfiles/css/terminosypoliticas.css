@@ -1,0 +1,49 @@
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Fondo claro */
+    color: #333; /* Color de texto */
+}
+
+.container {
+    width: 80%;
+    max-width: 800px; /* Máximo ancho para pantallas grandes */
+    margin: 20px auto; /* Centrado en la pantalla */
+    background: #fff; /* Fondo blanco */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+
+h1 {
+    text-align: center; /* Centrado */
+    color: #0056b3; /* Color azul */
+    margin-bottom: 20px; /* Margen inferior */
+}
+
+h2 {
+    border-bottom: 2px solid #0056b3; /* Línea debajo del título */
+    padding-bottom: 5px; /* Espaciado inferior */
+    margin-top: 20px; /* Margen superior */
+}
+
+p {
+    margin: 10px 0; /* Margen vertical */
+}
+
+ul {
+    margin: 10px 0 10px 20px; /* Margen y espaciado */
+}
+
+
+a {
+    color: #0056b3; /* Color azul */
+    text-decoration: none; /* Sin subrayado */
+}
+
+a:hover {
+    text-decoration: underline; /* Subrayado al pasar el ratón */
+}
