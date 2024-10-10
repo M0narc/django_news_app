@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.user_auth',
     'apps.autor',
     'apps.articulo',
     'apps.comentario',
