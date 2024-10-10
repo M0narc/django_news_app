@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Políticas de privacidad{% endblock %}
+
+{% block link  %} <link type='text/css' href='{% static "css/terminosypoliticas.css" %}' rel='stylesheet'/> {% endblock %}
+
+{% block content %}
+
+        <div  id="contpyt">
+            <h1 id="h1pyt">Acerca de Tecnoticias</h1>
+
+            <h2 id="h2pyt">Nuestro Blog</h2>
+            <p id="ppyt">
+                Bienvenidos a <strong>Tecnoticias</strong>, el blog de tecnología donde encontrarás las últimas noticias
+                y análisis sobre el mundo tecnológico. Este proyecto ha sido desarrollado por el <strong>Grupo 3</strong> de
+                la <strong>Comisión 3 del Informatorio Cohorte 2024</strong>.
+            </p>
+            <p id="ppyt">
+                Nuestro objetivo principal es ofrecer a nuestros lectores una plataforma confiable para acceder a 
+                información actualizada sobre tecnología, con artículos organizados en categorías claras y fáciles 
+                de explorar. Cubrimos una amplia gama de temas, desde novedades en hardware y software, hasta 
+                tendencias en inteligencia artificial y ciberseguridad.
+            </p>
+
+            <h2 id="h2pyt">El Proyecto</h2>
+            <p id="ppyt">
+                Este blog es el resultado de nuestro proyecto final del curso de Informatorio, cuyo objetivo es 
+                aplicar los conocimientos adquiridos a lo largo de la formación. El desarrollo ha sido realizado en 
+                <strong>Django</strong>, un potente framework de desarrollo web, y sigue las directrices establecidas por 
+                los mentores del curso.
+            </p>
+            <p id="ppyt">
+                La aplicación cuenta con perfiles de usuarios (visitante, miembro y administrador), y permite 
+                realizar acciones como crear, leer, editar y eliminar artículos y comentarios. Además, ofrece 
+                funcionalidades de filtrado por categorías, antigüedad y orden alfabético para facilitar la navegación.
+            </p>
+
+            <h2 id="h2pyt">Nuestro Equipo</h2>
+            <p id="ppyt">
+                Somos un grupo de estudiantes apasionados por la tecnología y el desarrollo web. A lo largo del 
+                curso hemos trabajado en equipo, aprendiendo y aplicando herramientas como Python, Django, 
+                HTML y CSS, para entregar un proyecto de alta calidad.
+            </p>
+            <p id="ppyt">
+                Si deseas saber más sobre nuestro trabajo, puedes ponerte en contacto con nosotros a través de 
+                la sección de <a href="/contacto" class="text-blue-600 underline">Contacto</a>.
+            </p>
+
+
+{% endblock %}
