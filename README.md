@@ -61,4 +61,4 @@
  - agregar categorias a articulos
  - ver que no se redireccione a ciertas partes si no esta logeado
  - quitar la seleccion de perfiles en el auth/register
- 
+ - revisar que el footer no pise el texto de la pagina
