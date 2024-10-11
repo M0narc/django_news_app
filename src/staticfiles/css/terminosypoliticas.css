@@ -1,31 +1,32 @@
-#contpyt {
+.contpyt {
     width: 80%;
-    max-width: 800px; /* Máximo ancho para pantallas grandes */
-    margin: 20px auto; /* Centrado en la pantalla */
-    background: #fff; /* Fondo blanco */
-    padding: 20px; /* Espaciado interno */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    max-width: 800px;
+    margin: 20px auto; 
+    background: #fff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
 }
 
 
-#h1pyt {
-    text-align: center; /* Centrado */
-    color: #0056b3; /* Color azul */
-    margin-bottom: 20px; /* Margen inferior */
+.h1pyt {
+    text-align: center; 
+    color: #0056b3; 
+    margin-bottom: 20px; 
 }
 
-#h2pyt {
-    border-bottom: 2px solid #0056b3; /* Línea debajo del título */
-    padding-bottom: 5px; /* Espaciado inferior */
-    margin-top: 20px; /* Margen superior */
+.h2pyt {
+    border-bottom: 2px solid #0056b3; 
+    padding-bottom: 5px; 
+    margin-top: 20px; 
 }
 
-#ppyt {
-    margin: 10px 0; /* Margen vertical */
+.ppyt {
+    margin: 10px 0; 
 }
 
-#ulpyt {
-    margin: 10px 0 10px 20px; /* Margen y espaciado */
+.ulpyt {
+    margin: 10px 0 10px 20px;
 }
 
