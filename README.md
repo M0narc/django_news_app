@@ -57,7 +57,6 @@
 
 # TODO
  - Despues podemos pasar todo el texto plano a .json para mejor legibilidad
- - Arreglar el boton para cambiar a darkmode que esta junto a la barra de busqueda
  - agregar categorias a articulos
  - ver que no se redireccione a ciertas partes si no esta logeado
  - quitar la seleccion de perfiles en el auth/register
