@@ -7,20 +7,20 @@ from.models import Autor
 class AutorCustomAdmin(admin.ModelAdmin):
 
     # Muestra los campos principales en la lista de autores
-    list_display = ('nombre', 
-                    'apellido', 
+    list_display = ('first_name', 
+                    'last_name', 
                     'email', 
                     'fecha_creacion', 
                     'fecha_actualizacion')
 
-    # Agrega barra de búsqueda para buscar por nombre, apellido o email
-    search_fields = ('nombre', 
-                     'apellido', 
+    # Agrega barra de búsqueda para buscar por first_name, last_name o email
+    search_fields = ('first_name', 
+                     'last_name', 
                      'email')
 
     # Define los campos para crear/editar un autor
-    fields = ('nombre', 
-              'apellido', 
+    fields = ('first_name', 
+              'last_name', 
               'email', 
               'biografia')
 
