@@ -1,23 +1,41 @@
-<!-- templates/home.html -->
 {% extends 'base.html' %}
 
 {% block title %}TECNOTICIAS{% endblock %}
 
-
-
 {% block content %}
-    <h1>Bienvenido a Mi Blog</h1>
-    <p>Este es el sitio web donde encontrarás los mejores artículos sobre diversas categorías.</p>
+<div class="bg-white py-24 sm:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:mx-0">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Trending</h2>
+      <p class="mt-2 text-lg leading-8 text-gray-600">Aprende de las nuevas tecnologias del mundo con nosotros.</p>
+    </div>
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-6 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
 
-    <section>
-        <h2>Artículos recientes</h2>
-        <ul>
-            {% for articulo in articulos %}
-                <li>
-                  
-                    <p>Por {{ articulo.autor.nombre }} {{ articulo.autor.apellido }} - Publicado el {{ articulo.fecha_publicada }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
+      {% for articulo in articulos %}
+      <article class="border p-4 rounded-lg shadow-lg mb-6">
+        <div class="flex justify-between items-center">
+          <time datetime="{{ articulo.fecha_publicada }}" class="text-gray-500">{{ articulo.fecha_publicada }}</time>
+          <a href="#" class="inline-block max-w-xs truncate rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+            {{ articulo.categoria.nombre }}
+          </a>
+        </div>
+        <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900">
+          <a href="#">{{ articulo.titulo }}</a>
+        </h3>
+        <p class="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">{{ articulo.contenido|truncatewords:20 }}</p>
+        <div class="mt-4 flex items-center">
+          <img src="{{ articulo.autor.avatar.url }}" alt="" class="h-10 w-10 rounded-full bg-gray-50">
+          <div class="text-sm leading-6 ml-2">
+            <p class="font-semibold text-gray-900">
+              <a href="#">{{ articulo.autor.nombre }} {{ articulo.autor.apellido }}</a>
+            </p>
+            <p class="text-gray-600">{{ articulo.autor.biografia }}</p>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+      
+    </div>
+  </div>
+</div>
 {% endblock %}
