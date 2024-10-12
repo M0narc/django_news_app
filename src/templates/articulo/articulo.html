@@ -5,13 +5,30 @@
 {% endblock %}
 
 {% block content %}
-    <div class="articulo">
-        <h1>{{ articulo.titulo }}</h1>
-        <p><strong>Autor:</strong> {{ articulo.autor }}</p>
-        <p><strong>Fecha de Publicación:</strong> {{ articulo.fecha_publicada }}</p>
-        <div class="contenido">
-            {{ articulo.contenido|linebreaks }}
-        </div>
-        <p><strong>Categoría:</strong> {{ articulo.categoria.nombre }}</p>
+<div class="articulo">
+    <h1>{{ articulo.titulo }}</h1>
+    <p><strong>Autor:</strong> {{ articulo.autor }}</p>
+    <p><strong>Fecha de Publicación:</strong> {{ articulo.fecha_publicada }}</p>
+    <div class="contenido">
+        {{ articulo.contenido|linebreaks }}
     </div>
+    <p><strong>Categoría:</strong> {{ articulo.categoria.nombre }}</p>
+</div>
+
+<!-- Sección de comentarios -->
+<div class="comentarios">
+    <h2>Comentarios</h2>
+    {% if comentarios %}
+        <ul>
+            {% for comentario in comentarios %}
+                <li style="margin-bottom: 10px;">
+                    <strong>{{ comentario.autor }}</strong> {% if comentario.fecha %} ({{ comentario.fecha }}){% endif %}:
+                    <p>{{ comentario.contenido }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay comentarios aún.</p>
+    {% endif %}
+</div>
 {% endblock %}

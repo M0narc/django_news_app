@@ -13,10 +13,12 @@ def home_view(request):
     return render(request, 'home.html', context)
 
 def articulo_detalle(request, id):
-    articulo = get_object_or_404(Articulo, id=id)
     
+    articulo = get_object_or_404(Articulo, id=id)
+    comentarios = articulo.comentarios.all() 
     context = {
         'articulo': articulo,
+        'comentarios': comentarios,
     }
     
     return render(request, 'articulo/articulo.html', context)
