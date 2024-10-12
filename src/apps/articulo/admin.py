@@ -11,9 +11,9 @@ class ArticuloCustomAdmin(admin.ModelAdmin):
 
     # buscar por titulo, nombre del autor y categoría
     search_fields = ('titulo', 
-                     'autor__nombre', 
+                     'autor__first_name', 
                      'autor__apellido',
-                     'categoria__nombre')
+                     'categoria__last_name')
 
     # Filtros laterales por autor, fecha publicada y categoría
     list_filter = ('autor', 

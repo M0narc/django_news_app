@@ -1,11 +1,11 @@
 from django.db import models
-from apps.autor.models import Autor
+from apps.user_auth.models import CustomUser
 from apps.articulo.models import Articulo
 
 # Create your models here.
 class Comentario(models.Model):
     contenido = models.TextField()
-    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
+    autor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
