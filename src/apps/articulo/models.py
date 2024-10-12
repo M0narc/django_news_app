@@ -10,7 +10,7 @@ class Categoria(models.Model):
         return self.nombre
 
 class Articulo(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True, unique=True, editable = False)
     titulo = models.CharField(max_length=100)
     contenido = models.TextField(null=False)
     autor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -18,6 +18,10 @@ class Articulo(models.Model):
                                   null=True, 
                                   blank=True)
     fecha_publicada = models.DateField(default=timezone.now)
-   
+    imagen_portada = models.ImageField(null=True, blank=True)
     def __str__(self):
         return self.titulo
+
+def __str__(self):
+    return self.titulo
+
