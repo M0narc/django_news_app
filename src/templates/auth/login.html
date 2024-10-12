@@ -3,7 +3,7 @@
 {% block content %}
 <div class="flex justify-center items-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h2>
         <form method="post">
             {% csrf_token %}
             <div class="mb-4">
@@ -17,9 +17,13 @@
             </div>
 
             <div class="mb-4">
-                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:ring-4 focus:ring-blue-300">Login</button>
+                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:ring-4 focus:ring-blue-300">Iniciar Sesión</button>
             </div>
         </form>
+        <p class="text-center text-gray-600 mt-4">
+            ¿No tienes una cuenta? 
+            <a href="{% url 'register' %}" class="text-blue-500">Regístrate!</a>
+        </p>
     </div>
 </div>
 {% endblock %}
