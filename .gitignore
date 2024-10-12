@@ -1,5 +1,5 @@
 # staticfiles/
-media/
+# media/
 local-cdn
 
 # Byte-compiled / optimized / DLL files
