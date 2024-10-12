@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.user_auth',
-    'apps.autor',
     'apps.articulo',
     'apps.comentario',
 ]
@@ -111,6 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTH_USER_MODEL = 'user_auth.CustomUser'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -139,7 +141,9 @@ STATIC_ROOT = BASE_DIR.parent / "local-cdn"
 
 # Media -> Imagenes, audios, videos que van surgiendo o creciendo a lo largo de la ejecución.
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media' 
+MEDIA_ROOT = BASE_DIR / 'media'
+print(MEDIA_URL)
+print(MEDIA_ROOT)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

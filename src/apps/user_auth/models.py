@@ -3,7 +3,16 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     # Campo para el avatar
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    biografia = models.TextField(blank=True, null=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    avatar = models.ImageField(upload_to='avatars/', 
+                                default='default_avatars/default_avatar.png', 
+                                null=True, 
+                                blank=True)
 
     # Definimos los roles o perfiles del usuario
     VISITANTE = 'visitante'

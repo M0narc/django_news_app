@@ -24,7 +24,6 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('autor/', include('apps.autor.urls')),
     path('', include('apps.articulo.urls')),
     path('auth/', include('apps.user_auth.urls')),
     path('terminos-y-condiciones/', TemplateView.as_view(template_name="terminosycondiciones.html"), name='terminosycondiciones'),
