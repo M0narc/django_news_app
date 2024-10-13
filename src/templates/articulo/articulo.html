@@ -18,17 +18,44 @@
 <!-- Sección de comentarios -->
 <div class="comentarios">
     <h2>Comentarios</h2>
-    {% if comentarios %}
+    
+    {% if articulo.comentarios.exists %}
         <ul>
-            {% for comentario in comentarios %}
-                <li style="margin-bottom: 10px;">
-                    <strong>{{ comentario.autor }}</strong> {% if comentario.fecha %} ({{ comentario.fecha }}){% endif %}:
+            {% for comentario in articulo.comentarios.all %}
+                <li style="margin-bottom: 20px;">
+                    <strong>{{ comentario.autor }}</strong> 
+                    {% if comentario.fecha_creacion %} 
+                        ({{ comentario.fecha_creacion }}) 
+                    {% endif %}:
+                    <br>
                     <p>{{ comentario.contenido }}</p>
+
+                    <!-- Botón para eliminar comentario si el autor es el usuario actual -->
+                    {% if comentario.autor == user %}
+                        <form method="POST" action="{% url 'eliminar_comentario' comentario.id %}" style="margin-top: 10px;">
+                            {% csrf_token %}
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No hay comentarios aún.</p>
+    {% endif %}
+</div>
+
+<!-- Formulario para añadir un comentario -->
+<div class="agregar-comentario">
+    {% if user.is_authenticated %}
+        <h2>Añadir comentario</h2>
+        <form method="POST" action="{% url 'agregar_comentario' articulo.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Enviar comentario</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Inicia sesión</a> para dejar un comentario.</p>
     {% endif %}
 </div>
 {% endblock %}
