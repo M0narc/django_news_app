@@ -22,6 +22,7 @@ class ArticuloCustomAdmin(admin.ModelAdmin):
 
     # formulario de creación/edición
     fields = ('titulo', 
+              'imagen_portada',
               'contenido', 
               'autor', 
               'categoria',  # Agregar la categoría en el formulario
