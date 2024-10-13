@@ -1,12 +1,11 @@
 from django.shortcuts import redirect
 
-def redirect_authenticated_user(view_func):
-    def _wrapped_view(request, *args, **kwargs):
+
+# from django.contrib.auth.decorators import login_required    ###para usar @login required
+
+def redirect_authenticated_user(view):
+    def wrapper(request):
         if request.user.is_authenticated:
-            return redirect('/')  # si no tenemos ‘home' y tenemos '/’. poner eso
-        return view_func(request, *args, **kwargs) 
-
-       # si no esta autenticado te redirije a la pagina correspondiente
-    return _wrapped_view
-
-
+            return redirect('/')  # Redirigir a la página deseada
+        return view(request)
+    return wrapper
