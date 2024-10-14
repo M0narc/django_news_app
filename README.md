@@ -61,4 +61,3 @@
  - ver que no se redireccione a ciertas partes si no esta logeado
  - revisar que el footer no pise el texto de la pagina
  - reverti los cambios...
- -ALDO PUTO
