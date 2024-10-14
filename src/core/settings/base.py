@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.user_auth',
     'apps.articulo',
     'apps.comentario',
+    'apps.contacto',
 ]
 
 MIDDLEWARE = [

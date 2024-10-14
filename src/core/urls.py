@@ -30,4 +30,6 @@ urlpatterns = [
     path('politicas-de-privacidad/', TemplateView.as_view(template_name="politicasdeprivacidad.html"), name='politicasdeprivacidad'),
     path('aboutus/', TemplateView.as_view(template_name="aboutus.html"), name='aboutus'),
     path('comentarios/', include('apps.comentario.urls')),
+    path('', include('apps.contacto.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
