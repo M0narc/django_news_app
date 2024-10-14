@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.views import generic
+from django.db.models import Q
 
 def home_view(request):
     categorias = Categoria.objects.all()
@@ -36,3 +39,38 @@ def articulo_detalle(request, articulo_id):
     }
     
     return render(request, 'articulo/articulo.html', context)
+
+class Categoria_vista(generic.ListView):
+    model = Articulo
+    template_name = 'blogs/results.html'
+
+    def get_queryset(self):
+        query = self.request.path.replace('/categoria/', '')
+        print(query)
+        post_list = Articulo.objects.filter(categorias__slug=query).filter(
+            pub_date__lte=timezone.now()
+        )
+        return post_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        return context
+
+class Resultado_vista(generic.ListView):
+    model = Articulo
+    template_name = 'blogs/results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('Search...')
+        post_list = Articulo.objects.filter(
+            Q(titulo__icontains=query) | Q(categorias__title__icontains=query)
+        ).filter(
+            pub_date__lte=timezone.now()
+        ).distinct()
+        return post_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        return context
