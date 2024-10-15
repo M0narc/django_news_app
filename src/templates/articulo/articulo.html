@@ -49,7 +49,7 @@
 <div class="agregar-comentario">
     {% if user.is_authenticated %}
         <h2>Añadir comentario</h2>
-        <form method="POST" action="{% url 'agregar_comentario' articulo.id %}">
+        <form method="POST" action="{% url 'agregar_comentario' articulo.slug %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Enviar comentario</button>

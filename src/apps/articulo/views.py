@@ -17,8 +17,8 @@ def home_view(request):
     
     return render(request, 'home.html', context)
 
-def articulo_detalle(request, articulo_id):  
-    articulo = get_object_or_404(Articulo, id=articulo_id) 
+def articulo_detalle(request, slug):  
+    articulo = get_object_or_404(Articulo, slug=slug) 
     comentarios = articulo.comentarios.all()  
 
     if request.method == 'POST':
@@ -28,7 +28,7 @@ def articulo_detalle(request, articulo_id):
             comentario.articulo = articulo
             comentario.autor = request.user  
             comentario.save()
-            return redirect('detalle_articulo', articulo_id=articulo.id)  
+            return redirect('detalle_articulo', slug=articulo.slug)  
     else:
         form = ComentarioForm()
 

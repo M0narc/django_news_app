@@ -20,13 +20,12 @@ class CustomUser(AbstractUser):
     COLABORADOR = 'colaborador'
 
     ROLE_CHOICES = [
-        (VISITANTE, 'Visitante'),
         (MIEMBRO, 'Miembro o Usuario registrado'),
         (COLABORADOR, 'Colaborador'),
     ]
 
     # Campo para el perfil
-    perfil = models.CharField(max_length=15, choices=ROLE_CHOICES, default=VISITANTE)
+    perfil = models.CharField(max_length=15, choices=ROLE_CHOICES, default=MIEMBRO)
 
     # Solucionar los conflictos de 'groups' y 'user_permissions'
     groups = models.ManyToManyField(
