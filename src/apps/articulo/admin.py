@@ -23,6 +23,7 @@ class ArticuloCustomAdmin(admin.ModelAdmin):
 
     # formulario de creación/edición
     fields = ('titulo', 
+              'slug',
               'imagen_portada',
               'contenido', 
               'autor', 

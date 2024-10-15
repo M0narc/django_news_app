@@ -8,8 +8,8 @@ def home_view(request):
     return render(request, 'comentario/home.html')
 
 @login_required
-def agregar_comentario(request, articulo_id):
-    articulo = get_object_or_404(Articulo, id=articulo_id)
+def agregar_comentario(request, slug):
+    articulo = get_object_or_404(Articulo, slug=slug)
     if request.method == 'POST':
         form = ComentarioForm(request.POST)
         if form.is_valid():
@@ -17,7 +17,7 @@ def agregar_comentario(request, articulo_id):
             comentario.articulo = articulo
             comentario.autor = request.user  
             comentario.save()
-            return redirect('detalle_articulo', articulo_id=articulo.id) 
+            return redirect('detalle_articulo', slug=articulo.slug) 
     else:
         form = ComentarioForm()
     return render(request, 'agregar_comentario.html', {'form': form, 'articulo': articulo})
@@ -28,6 +28,7 @@ def eliminar_comentario(request, comentario_id):
     comentario = get_object_or_404(Comentario, id=comentario_id)
     if request.user == comentario.autor:  
         comentario.delete()
-        return redirect('detalle_articulo', articulo_id=comentario.articulo.id)
+        return redirect('detalle_articulo', slug=comentario.articulo.slug)  # Redirige a la vista de detalle del artículo
     else:
-        return redirect('detalle_articulo', articulo_id=comentario.articulo.id)
+        return redirect('detalle_articulo', slug=comentario.articulo.slug)  # Redirige a la vista de detalle del artículo
+
