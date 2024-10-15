@@ -10,20 +10,21 @@
 
     <div class="flex flex-col gap-6 mt-10">
       {% for articulo in articulos %}
-      <div class="bg-white p-2 w-full max-w-3xl h-96 rounded-2xl shadow-lg flex gap-5 select-none">
+      <div class="bg-white p-2 w-full max-w-3xl h-96 rounded-2xl shadow-lg flex gap-5 select-none shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
 
-        <div class="h-52 w-92 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center">
+
+        <a href="{% url 'detalle_articulo' articulo.id %}" class="flex flex-col w-full items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
           {% if articulo.imagen_portada %}
-            <img src="{{ articulo.imagen_portada.url }}" alt="{{ articulo.titulo }}" class="h-full w-full object-cover" />
+            <img src="{{ articulo.imagen_portada.url }}" alt="{{ articulo.titulo }}" class="object-cover w-full rounded-t-lg h-full md:h-64 md:w-96 md:rounded-none md:rounded-s-lg" />
           {% else %}
             <div class="flex items-center justify-center h-full text-gray-400">Sin imagen disponible</div>
           {% endif %}
-        </div>
+        </a>
         
 
-        <div class="flex w-2/3 flex-col gap-2 p-1">
-          <h1 class="text-lg font-semibold text-gray-600">{{ articulo.titulo }}</h1>
-          <p class="text-gray-500 text-sm line-clamp-3">{{ articulo.contenido|truncatewords:20 }}</p>
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ articulo.titulo }}</h1>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ articulo.contenido|truncatewords:20 }}</p>
 
           <div class="flex gap-4 mt-auto">
             <a href="{% url 'detalle_articulo' articulo.id %}" class="flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500">
