@@ -58,6 +58,5 @@
 # TODO
  - Despues podemos pasar todo el texto plano a .json para mejor legibilidad
  - agregar categorias a articulos
- - ver que no se redireccione a ciertas partes si no esta logeado
- - revisar que el footer no pise el texto de la pagina
+ - ver que no se redireccione a ciertas partes si no esta logeado ####
  - reverti los cambios...

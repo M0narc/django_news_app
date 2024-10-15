@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}TECNOTICIAS{% endblock %}
+{% block title %}Artículos de {{ categoria_actual }}{% endblock %}
 
 {% block content %}
 <div class="bg-white py-24 sm:py-32">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Trending</h2>
-      <p class="mt-2 text-lg leading-8 text-gray-600">Aprende de las nuevas tecnologias del mundo con nosotros.</p>
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Artículos de {{ categoria_actual }}
+      </h2>
+      <p class="mt-2 text-lg leading-8 text-gray-600">Explora los artículos sobre esta categoría.</p>
     </div>
     <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-6 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
 
-      {% for articulo in articulos %}
+      {% for articulo in object_list %}
       <article class="border p-4 rounded-lg shadow-lg mb-6">
         <div class="flex justify-between items-center">
           <time datetime="{{ articulo.fecha_publicada }}" class="text-gray-500">{{ articulo.fecha_publicada }}</time>
@@ -27,14 +29,16 @@
           <img src="{{ articulo.autor.avatar.url }}" alt="" class="h-10 w-10 rounded-full bg-gray-50">
           <div class="text-sm leading-6 ml-2">
             <p class="font-semibold text-gray-900">
-              <a href="#">{{ articulo.autor.first_name }} {{ articulo.autor.last_name }}</a>
+              <a href="#">{{ articulo.autor.nombre }} {{ articulo.autor.apellido }}</a>
             </p>
             <p class="text-gray-600">{{ articulo.autor.biografia }}</p>
           </div>
         </div>
       </article>
+      {% empty %}
+      <p>No hay artículos en esta categoría todavía.</p>
       {% endfor %}
-      
+
     </div>
   </div>
 </div>

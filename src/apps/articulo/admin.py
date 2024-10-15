@@ -4,7 +4,8 @@ from .models import Articulo, Categoria
 @admin.register(Articulo)
 class ArticuloCustomAdmin(admin.ModelAdmin):
 
-    list_display = ('titulo', 
+    list_display = ('titulo',
+                    'slug',
                     'autor', 
                     'categoria',
                     'fecha_publicada')
