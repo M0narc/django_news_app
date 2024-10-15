@@ -21,6 +21,8 @@ def articulo_detalle(request, slug):
     articulo = get_object_or_404(Articulo, slug=slug) 
     comentarios = articulo.comentarios.all()  
 
+    es_colaborador_o_admin = request.user.is_superuser or request.user.groups.filter(name='COLABORADOR').exists()
+
     if request.method == 'POST':
         form = ComentarioForm(request.POST)
         if form.is_valid():
@@ -36,6 +38,7 @@ def articulo_detalle(request, slug):
         'articulo': articulo,
         'comentarios': comentarios,
         'form': form,  
+        'es_colaborador_o_admin': es_colaborador_o_admin,
     }
     
     return render(request, 'articulo/articulo.html', context)

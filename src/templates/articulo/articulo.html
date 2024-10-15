@@ -31,7 +31,7 @@
                     <p>{{ comentario.contenido }}</p>
 
                     <!-- Botón para eliminar comentario si el autor es el usuario actual -->
-                    {% if comentario.autor == user %}
+                    {% if comentario.autor == user or es_colaborador_o_admin %}
                         <form method="POST" action="{% url 'eliminar_comentario' comentario.id %}" style="margin-top: 10px;">
                             {% csrf_token %}
                             <button type="submit">Eliminar</button>
