@@ -5,6 +5,7 @@ from .models import Articulo, Categoria
 class ArticuloCustomAdmin(admin.ModelAdmin):
 
     list_display = ('titulo',
+                    'slug',
                     'autor', 
                     'categoria',
                     'fecha_publicada')
