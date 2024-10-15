@@ -14,15 +14,14 @@ def contacto(request):
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
 
-            # Enviar el correo
             send_mail(
-                f'Mensaje de {name}',  # Asunto
-                message,  # Cuerpo del mensaje
-                email,  # Remitente
-                [settings.EMAIL_HOST_USER],  # Destinatario
+                f'Mensaje de {name}',  
+                message,  
+                email,  
+                [settings.EMAIL_HOST_USER], 
                 fail_silently=False,
             )
-            return render(request, 'contacto/contacto_exitoso.html')  # Crear plantilla de éxito
+            return render(request, 'contacto/contacto_exitoso.html')  
     else:
         form = ContactForm()
     
