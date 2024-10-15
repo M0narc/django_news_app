@@ -23,7 +23,6 @@ class ArticuloCustomAdmin(admin.ModelAdmin):
 
     # formulario de creación/edición
     fields = ('titulo', 
-              'slug',
               'imagen_portada',
               'contenido', 
               'autor', 
@@ -36,7 +35,7 @@ class ArticuloCustomAdmin(admin.ModelAdmin):
 
 @admin.register(Categoria)
 class CategoriaCustomAdmin(admin.ModelAdmin):
-    list_display = ('nombre',)
+    list_display = ('nombre','slug')
     search_fields = ('nombre',)
     # para poder crear las nuevas categorias
     fields = ('nombre',)

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from apps.user_auth.models import CustomUser
 from django.urls import reverse
+from django.utils.text import slugify
 
 # para poder hacer dinamica la categoria
 class Categoria(models.Model):
@@ -15,7 +16,11 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.nombre
-
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs) 
 
 class Articulo(models.Model):
     id = models.AutoField(primary_key=True, unique=True, editable = False)
@@ -33,3 +38,9 @@ class Articulo(models.Model):
     
     def get_absolute_url(self):
         return reverse("detalle_articulo", kwargs={"slug": self.slug})
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.titulo)
+        super().save(*args, **kwargs) 
+
