@@ -40,37 +40,56 @@ def articulo_detalle(request, articulo_id):
     
     return render(request, 'articulo/articulo.html', context)
 
+# class Categoria_vista(generic.ListView):
+#     model = Articulo
+#     template_name = 'home.html'
+
+#     def get_queryset(self):
+#         query = self.request.path.replace('/categoria/', '')
+#         print(query)
+#         articulos = Articulo.objects.filter(categoria__slug=query).filter(
+#             fecha_publicada__lte=timezone.now()
+#         )
+#         return articulos
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['categories'] = Categoria.objects.all()
+#         return context
+
 class Categoria_vista(generic.ListView):
     model = Articulo
-    template_name = 'blogs/results.html'
+    template_name = 'articulo/resultados.html'  # Nueva plantilla para categorías
 
     def get_queryset(self):
-        query = self.request.path.replace('/categoria/', '')
-        print(query)
-        post_list = Articulo.objects.filter(categorias__slug=query).filter(
-            pub_date__lte=timezone.now()
+        # Obtiene la categoría por su slug desde la URL
+        categoria_slug = self.kwargs.get('slug')
+        return Articulo.objects.filter(
+            categoria__slug=categoria_slug,
+            fecha_publicada__lte=timezone.now()
         )
-        return post_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorias'] = Categoria.objects.all()
+        context['categories'] = Categoria.objects.all()  # Para mostrar categorías en el menú
+        context['categoria_actual'] = self.kwargs.get('slug')  # Mostrar la categoría actual si es necesario
         return context
 
 class Resultado_vista(generic.ListView):
     model = Articulo
-    template_name = 'blogs/results.html'
+    template_name = 'articulo/resultados.html'
 
     def get_queryset(self):
         query = self.request.GET.get('Search...')
-        post_list = Articulo.objects.filter(
-            Q(titulo__icontains=query) | Q(categorias__title__icontains=query)
+        articulos = Articulo.objects.filter(
+            Q(titulo__icontains=query) | Q(categoria__nombre__icontains=query)
         ).filter(
             pub_date__lte=timezone.now()
         ).distinct()
-        return post_list
+        return articulos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorias'] = Categoria.objects.all()
+        context['categories'] = Categoria.objects.all()  # Para mostrar categorías en el menú
+        context['categoria_actual'] = self.kwargs.get('slug')  # Mostrar la categoría actual si es necesario
         return context

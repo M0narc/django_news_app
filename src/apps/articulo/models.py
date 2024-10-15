@@ -6,12 +6,12 @@ from django.urls import reverse
 # para poder hacer dinamica la categoria
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
     class Meta:
         verbose_name_plural = 'categorias'
 
     def get_absolute_url(self):
-        return reverse("articulo:categoria", kwargs={"slug": self.slug})
+        return reverse("articulo:Categoria", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.nombre
@@ -30,10 +30,6 @@ class Articulo(models.Model):
     imagen_portada = models.ImageField(null=True, blank=True)
     def __str__(self):
         return self.titulo
-
-    def get_absolute_url(self):
-        return reverse("articulo:articulo", kwargs={"slug": self.slug})
-
     
-    def __str__(self):
-        return self.titulo
+    def get_absolute_url(self):
+        return reverse("detalle_articulo", kwargs={"slug": self.slug})

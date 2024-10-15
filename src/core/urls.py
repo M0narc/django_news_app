@@ -28,6 +28,7 @@ urlpatterns = [
     path('auth/', include('apps.user_auth.urls')),
     path('terminos-y-condiciones/', TemplateView.as_view(template_name="terminosycondiciones.html"), name='terminosycondiciones'),
     path('politicas-de-privacidad/', TemplateView.as_view(template_name="politicasdeprivacidad.html"), name='politicasdeprivacidad'),
+    path('resultados/', TemplateView.as_view(template_name="resultados.html"), name='resultados'),
     path('aboutus/', TemplateView.as_view(template_name="aboutus.html"), name='aboutus'),
     path('comentarios/', include('apps.comentario.urls')),
     path('', include('apps.contacto.urls')),
