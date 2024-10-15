@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Artículos en la categoría: {{ categoria.nombre }}</h1>
+
+<div id="articulos-container">
+    {% for articulo in articulos %}
+    <div class="articulo">
+        <h2>{{ articulo }}</h2>
+        <p>{{ articulo.contenido }}</p>
+        <p><strong>Publicado por:</strong> {{ articulo.autor }}</p>
+        <p><strong>Fecha:</strong> {{ articulo.fecha_publicada }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

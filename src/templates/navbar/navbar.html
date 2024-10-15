@@ -28,7 +28,12 @@
           </svg>
           <span class="sr-only">Search icon</span>
         </div>
-        <input type="text" id="search-navbar" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
+        <form method="GET" action="{% url 'buscar_articulos' %}">
+          <input type="text" id="search-navbar" name="search"
+              class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search...">
+          <button type="submit" class="hidden"></button>
+      </form>
       </div>
       <button data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
           <span class="sr-only">Open main menu</span>
@@ -62,7 +67,7 @@
                         <ul class="space-y-4" aria-labelledby="mega-menu-categories-dropdown-button">
                             {% for category in categories %}
                             <li>
-                                <a href="{% url 'home' %}" class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group">
+                                <a href="{% url 'articulos_por_categoria' category.id %}" class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group">
                                     {{ category.nombre }}
                                 </a>
                             </li>

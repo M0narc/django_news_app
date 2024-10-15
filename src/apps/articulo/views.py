@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+
 
 def home_view(request):
     categorias = Categoria.objects.all()
@@ -13,6 +15,7 @@ def home_view(request):
     }
     
     return render(request, 'home.html', context)
+
 
 def articulo_detalle(request, articulo_id):  
     articulo = get_object_or_404(Articulo, id=articulo_id) 
@@ -36,3 +39,34 @@ def articulo_detalle(request, articulo_id):
     }
     
     return render(request, 'articulo/articulo.html', context)
+
+
+def articulos_por_categoria(request, categoria_id):
+    categoria = Categoria.objects.get(id=categoria_id)
+    articulos = Articulo.objects.filter(categoria=categoria)
+
+    context = {
+        'articulos': articulos,
+        'categorias': categoria,
+    }
+
+    return render(request, 'articulo/articulos_por_categoria.html', context)
+
+
+def buscar_articulos(request):
+    query = request.GET.get('search')
+
+    if query:
+        articulos = Articulo.objects.filter(
+            Q(autor__first_name__icontains=query) |
+            Q(autor__last_name__icontains=query) |
+            Q(titulo__icontains=query)
+        )
+    else:
+        articulos = Articulo.objects.all()
+    
+    context = {
+        'articulos': articulos
+    }
+
+    return render(request, 'articulo/search.html', context)
