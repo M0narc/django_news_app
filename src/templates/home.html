@@ -16,6 +16,15 @@
             <!-- Si el número de la iteración es par, primero el contenido y luego la imagen -->
             <div class="flex flex-col justify-between p-4 leading-normal">
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ articulo.titulo }}</h5>
+
+              <!-- Bloque para mostrar el autor, avatar más pequeño y texto más chico -->
+              <div class="flex items-center mt-1">
+                <img class="w-6 h-6 rounded-full" src="{{ articulo.autor.avatar.url }}" alt="Avatar de {{ articulo.autor.username }}">
+                <p class="ml-2 text-sm text-gray-600">
+                    Escrito por: <span class="font-semibold">{{ articulo.autor.username }}</span>
+                </p>
+              </div>
+
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ articulo.contenido|truncatewords:20 }}</p>
 
               <div class="flex gap-4 mt-auto">
@@ -48,6 +57,15 @@
 
             <div class="flex flex-col justify-between p-4 leading-normal">
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ articulo.titulo }}</h5>
+
+               <!-- Bloque para mostrar el autor -->
+               <div class="flex items-center mt-1">
+                <img class="w-6 h-6 rounded-full" src="{{ articulo.autor.avatar.url }}" alt="Avatar de {{ articulo.autor.username }}">
+                <p class="ml-2 text-sm text-gray-600">
+                    Escrito por: <span class="font-semibold">{{ articulo.autor.username }}</span>
+                </p>
+              </div>
+
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ articulo.contenido|truncatewords:20 }}</p>
 
               <div class="flex gap-4 mt-auto">
