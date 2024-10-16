@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+
+from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
 from django.contrib.auth.decorators import login_required
@@ -17,32 +19,55 @@ def home_view(request):
     
     return render(request, 'home.html', context)
 
-def articulo_detalle(request, slug):  
-    articulo = get_object_or_404(Articulo, slug=slug) 
-    comentarios = articulo.comentarios.all()  
+@login_required
+def articulo_detalle(request, slug):
+    articulo = get_object_or_404(Articulo, slug=slug)
+    comentarios = articulo.comentarios.all()
 
     es_colaborador_o_admin = request.user.is_superuser or request.user.groups.filter(name='COLABORADOR').exists()
 
+    print("Es es_colaborador_o_admin -> ", request.user.groups)
+
+    # Si hay un comentario en edición, obtener el comentario específico
+    comentario_en_edicion = None
+    comentario_id = request.GET.get('editar', None)
+    if comentario_id:
+        comentario_en_edicion = get_object_or_404(Comentario, id=comentario_id)
+
     if request.method == 'POST':
-        form = ComentarioForm(request.POST)
-        if form.is_valid():
-            comentario = form.save(commit=False)
-            comentario.articulo = articulo
-            comentario.autor = request.user  
-            comentario.save()
-            return redirect('detalle_articulo', slug=articulo.slug)  
+        comentario_id = request.POST.get('comentario_id', None)
+        
+        # Si estamos editando un comentario
+        if comentario_id:
+            comentario = get_object_or_404(Comentario, id=comentario_id)
+            if request.user == comentario.autor or es_colaborador_o_admin:
+                form = ComentarioForm(request.POST, instance=comentario)
+                if form.is_valid():
+                    form.save()
+                    return redirect('detalle_articulo', slug=articulo.slug)
+        else:
+            # Añadir nuevo comentario
+            form = ComentarioForm(request.POST)
+            if form.is_valid():
+                comentario = form.save(commit=False)
+                comentario.articulo = articulo
+                comentario.autor = request.user
+                comentario.save()
+                return redirect('detalle_articulo', slug=articulo.slug)
     else:
         form = ComentarioForm()
 
     context = {
         'articulo': articulo,
         'comentarios': comentarios,
-        'form': form,  
+        'form': form,
         'es_colaborador_o_admin': es_colaborador_o_admin,
+        'comentario_en_edicion': comentario_en_edicion,  # Para saber si hay un comentario en edición
     }
-    
+
     return render(request, 'articulo/articulo.html', context)
 
+# http://127.0.0.1:8000/articulo/qa-stuff
 
 class Categoria_vista(generic.ListView):
     model = Articulo
