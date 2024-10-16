@@ -15,59 +15,62 @@
     <p><strong>Categoría:</strong> {{ articulo.categoria.nombre }}</p>
 </div>
 
+<!-- Botones de Editar y Eliminar (si es el autor o colaborador) -->
+{% if request.user == articulo.autor or es_colaborador_o_admin %}
+    <div class="botones-articulo">
+        <a href="{% url 'editar_articulo' articulo.slug %}" class="btn btn-primary">Editar</a>
+        
+        <form method="POST" action="{% url 'eliminar_articulo' articulo.slug %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este artículo?');">Eliminar</button>
+        </form>
+    </div>
+{% endif %}
+
 <!-- Sección de comentarios -->
 <div class="comentarios">
     <h2>Comentarios</h2>
     
-    {% if articulo.comentarios.exists %}
-        <ul>
-            {% for comentario in articulo.comentarios.all %}
-                <li style="margin-bottom: 20px;">
-                    <strong>{{ comentario.autor }}</strong> 
-                    {% if comentario.fecha_creacion %} 
-                        ({{ comentario.fecha_creacion }}) 
-                    {% endif %}:
-                    <br>
+    <!-- Lista de comentarios -->
+    {% for comentario in comentarios %}
+        <div class="comentario">
+            <p><strong>{{ comentario.autor }}</strong> el {{ comentario.fecha_publicada }}</p>
+            <p>{{ comentario.contenido }}</p>
 
-                    {% if comentario == comentario_en_edicion %}
-                        <!-- Mostrar formulario de edición solo si estamos editando este comentario -->
-                        <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
-                            <button type="submit">Guardar cambios</button>
-                        </form>
-                    {% else %}
-                        <!-- Mostrar comentario normalmente -->
-                        <p>{{ comentario.contenido }}</p>
-
-                        {% if comentario.autor == user or es_colaborador_o_admin %}
-                            <a href="{% url 'detalle_articulo' articulo.slug %}?editar={{ comentario.id }}">Editar</a>
-                            <form method="POST" action="{% url 'eliminar_comentario' comentario.id %}" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit">Eliminar</button>
-                            </form>
-                        {% endif %}
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No hay comentarios aún.</p>
-    {% endif %}
+            <!-- Opciones para editar/eliminar comentario si es el autor o colaborador/admin -->
+            {% if request.user == comentario.autor or es_colaborador_o_admin %}
+                <a href="?editar={{ comentario.id }}" class="btn btn-secondary btn-sm">Editar</a>
+                <form method="POST" action="{% url 'eliminar_comentario' articulo.slug %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este comentario?');">Eliminar</button>
+                </form>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
+    {% endfor %}
 </div>
 
-<!-- Formulario para añadir un comentario -->
-<div class="agregar-comentario">
-    {% if user.is_authenticated %}
-        <h2>Añadir comentario</h2>
-        <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Enviar comentario</button>
-        </form>
-    {% else %}
-        <p><a href="{% url 'login' %}">Inicia sesión</a> para dejar un comentario.</p>
+<!-- Formulario de comentarios -->
+<div class="formulario-comentario">
+    <h3>Agregar un comentario</h3>
+
+    {% if comentario_en_edicion %}
+        <h4>Estás editando tu comentario</h4>
     {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        {% if comentario_en_edicion %}
+            <input type="hidden" name="comentario_id" value="{{ comentario_en_edicion.id }}">
+            <button type="submit" class="btn btn-primary">Actualizar Comentario</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Publicar Comentario</button>
+        {% endif %}
+    </form>
 </div>
+
 {% endblock %}

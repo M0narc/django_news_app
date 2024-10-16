@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
+from .forms import ArticuloForm
 from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
@@ -105,3 +105,40 @@ class Resultado_vista(generic.ListView):
         context['categories'] = Categoria.objects.all()  # Para mostrar categorías en el menú
         context['categoria_actual'] = self.kwargs.get('slug')  # Mostrar la categoría actual si es necesario
         return context
+    
+@login_required
+def eliminar_articulo(request, slug):
+    articulo = get_object_or_404(Articulo, slug=slug)
+
+    # Verificar si el usuario es el autor o tiene permiso de colaborador
+    if request.user == articulo.autor or request.user.is_superuser or request.user.groups.filter(name='COLABORADOR').exists():
+        if request.method == 'POST':
+            articulo.delete()
+            return redirect('home')
+    else:
+        return redirect('detalle_articulo', slug=slug)
+
+    return render(request, 'articulo/eliminar_articulo.html', {'articulo': articulo})
+
+def editar_articulo(request, slug):
+    articulo = get_object_or_404(Articulo, slug=slug)
+
+    # Verificar si el usuario es el autor o colaborador/admin
+    if request.user != articulo.autor and not request.user.is_superuser and not request.user.groups.filter(name='COLABORADOR').exists():
+        return redirect('detalle_articulo', slug=articulo.slug)
+
+    if request.method == 'POST':
+        form = ArticuloForm(request.POST, instance=articulo)
+        if form.is_valid():
+            form.save()
+            return redirect('detalle_articulo', slug=articulo.slug)
+    else:
+        form = ArticuloForm(instance=articulo)
+
+    context = {
+        'form': form,
+        'articulo': articulo,
+    }
+    
+    return render(request, 'articulo/editar.html', context)
+
