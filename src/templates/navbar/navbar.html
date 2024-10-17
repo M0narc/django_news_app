@@ -1,79 +1,70 @@
 {% load static %}
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <img src="{% static 'images/logocontexto.png' %}" class="h-20 w-auto align-middle" alt="Tecnoticias Logo" />
-    </a>
-    <div class="flex md:order-2">
-        <!-- Botón para cambiar de modo oscuro/claro -->
-        <button id="theme-toggle" type="button" class="p-2 w-10 h-10 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
-          <!-- Icono para modo oscuro -->
-          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1 1 12.21 3a7.5 7.5 0 0 0 8.79 9.79z"></path>
-          </svg>
-          <!-- Icono para modo claro -->
-          <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8-9h1m-16 0H3m15.364 7.364l-.707-.707M5.636 5.636l-.707-.707m0 12.728l.707-.707m12.728-12.728l-.707-.707M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
-          </svg>
-        </button>
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 border-b border-gray-200 dark:border-gray-600">
+    <div class="max-w-screen-xl mx-auto flex items-center justify-center space-x-10">
+  
+        <a href="/" class="max-w-screen-xl w-full flex flex-wrap place-content-start items-center mx-auto p-2">
+            <img src="{% static 'images/logocontexto.png' %}" 
+                 class=" h-20 w-auto" 
+                 alt="Tecnoticias Logo" />
+        </a>
 
-        <!-- Botón para colapsar el menú -->
-        <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-          </svg>
-          <span class="sr-only">Search</span>
-        </button>
-      <div class="relative hidden md:block">
-        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-          </svg>
-          <span class="sr-only">Search icon</span>
+        <!-- Botón de tema + Menú -->
+        {% comment %} <div class="flex items-center space-x-6">
+            <!-- Botón para cambiar de modo oscuro/claro -->
+            <button id="theme-toggle" type="button" 
+                    class="p-2 w-10 h-10 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600">
+                <svg id="theme-toggle-dark-icon" 
+                     class="hidden w-5 h-5" fill="none" stroke="currentColor" 
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M21 12.79A9 9 0 1 1 12.21 3a7.5 7.5 0 0 0 8.79 9.79z"></path>
+                </svg>
+                <svg id="theme-toggle-light-icon" 
+                     class="hidden w-5 h-5" fill="none" stroke="currentColor" 
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M12 3v1m0 16v1m8-9h1m-16 0H3m15.364 7.364l-.707-.707M5.636 5.636l-.707-.707m0 12.728l.707-.707m12.728-12.728l-.707-.707M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                </svg>
+            </button> {% endcomment %}
+
+
+            <ul class="flex items-center space-x-8 font-medium">
+                <li>
+                  <a href="{% url 'contacto' %}" 
+                     class="text-lg text-gray-900 hover:text-blue-700 dark:text-white dark:hover:text-blue-500">
+                      Contactanos
+                  </a>
+                </li>
+                <li>
+                    <a href="{% url 'aboutus' %}" 
+                       class="text-lg text-gray-900 hover:text-blue-700 dark:text-white dark:hover:text-blue-500">
+                        About
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'logout' %}" 
+                       class="text-lg text-blue-700 hover:text-blue-300 dark:text-white dark:hover:text-blue-500">
+                        Logout
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{% url 'login' %}" 
+                       class="text-lg text-gray-900 hover:text-blue-700 dark:text-white dark:hover:text-blue-500">
+                        Login
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'register' %}" 
+                       class="text-lg text-gray-900 hover:text-blue-700 dark:text-white dark:hover:text-blue-500">
+                        Registrarse
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
-        <form class="d-flex" role="search" action="{% url 'buscar' %}" method="get">
-        <input type="text" id="search-navbar" name="q" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
-        </form>
-      </div>
-      <button data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
-          <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-          </svg>
-      </button>
     </div>
-      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
-        <div class="relative mt-3 md:hidden">
-          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-            </svg>
-          </div>
-          <form class="d-flex" role="Search..." action="{% url 'buscar' %}" method="get">
-          <input type="text" id="search-navbar" name="q" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
-          </form>
-        </div>
-        
-        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                    
-            
-          <li>
-            <a href="{% url 'aboutus'%}" class="block py-2 px-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-          </li>
-          {% if user.is_authenticated %}
-          <li>
-            <a href="{% url 'logout'%}" class="block py-2 px-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</a>
-          </li>
-          {% else %}
-          <li>
-            <a href="{% url 'login'%}" class="block py-2 px-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Login</a>
-          </li>
-          <li>
-            <a href="{% url 'register'%}" class="block py-2 px-4 text-lg text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Registrarse</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <script src="{% static 'js/claro_oscuro.js' %}"></script>
+</nav>
+
+<script src="{% static 'js/claro_oscuro.js' %}"></script>

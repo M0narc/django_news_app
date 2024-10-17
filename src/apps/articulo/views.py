@@ -8,33 +8,45 @@ from django.utils import timezone
 from django.views import generic
 from django.db.models import Q
 
-# class home_view(ListView):
-#     model = Articulo
-#     template_name = 'home.html'
-#     context_object_name = 'articulos'
-#     ordering = '-fecha_publicada'
+class ArticuloSearchAndFilterView(ListView):
+    model = Articulo
+    template_name = 'home.html'
+    context_object_name = 'articulos'
 
-#     def get_queryset(self):
-#         orden = self.request.GET.get('orden', '-fecha_publicada')
-#         filtro = self.request.GET.get('filtro', None)
+    def get_queryset(self):
+        # Obtiene parámetros de búsqueda, filtro y ordenación desde los GET
+        query = self.request.GET.get('q', '')  
+        filtro = self.request.GET.get('filtro', None)
+        orden = self.request.GET.get('orden', '-fecha_publicada')
 
-#         # Filtra por categoría si se proporciona un filtro
-#         queryset = Articulo.objects.all()
-#         if filtro:
-#             queryset = queryset.filter(categoria__nombre=filtro)
+        # Base queryset: artículos disponibles hasta la fecha actual
+        queryset = Articulo.objects.filter(fecha_publicada__lte=timezone.now())
 
-#         # Aplica la ordenación
-#         return queryset.order_by(orden)
+        # Aplicar filtro por categoría si existe
+        if filtro:
+            queryset = queryset.filter(categoria__nombre=filtro)
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         # Agrega todas las categorías al contexto para el dropdown
-#         context['categories'] = Categoria.objects.all()
-#         # Mantener los valores actuales de filtro y orden en el contexto
-#         context['filtro_actual'] = self.request.GET.get('filtro', '')
-#         context['orden_actual'] = self.request.GET.get('orden', '-fecha_publicada')
-#         return context
-    
+        # Aplicar búsqueda si se proporciona una query
+        if query:
+            queryset = queryset.filter(
+                Q(titulo__icontains=query) | Q(categoria__nombre__icontains=query)
+            ).distinct()
+
+        # Aplicar ordenación según el parámetro recibido
+        return queryset.order_by(orden)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Agrega todas las categorías al contexto para el menú
+        context['categories'] = Categoria.objects.all()
+
+        # Mantener los valores actuales de búsqueda, filtro y orden en el contexto
+        context['query_actual'] = self.request.GET.get('q', '')
+        context['filtro_actual'] = self.request.GET.get('filtro', '')
+        context['orden_actual'] = self.request.GET.get('orden', '-fecha_publicada')
+
+        return context
+
 @login_required
 def articulo_detalle(request, slug):
     articulo = get_object_or_404(Articulo, slug=slug)
@@ -82,85 +94,3 @@ def articulo_detalle(request, slug):
     }
 
     return render(request, 'articulo/articulo.html', context)
-
-# http://127.0.0.1:8000/articulo/qa-stuff
-
-class Categoria_vista(generic.ListView):
-    model = Articulo
-    template_name = 'articulo/resultados.html' 
-
-    def get_queryset(self):
-        categoria_slug = self.kwargs.get('slug')
-        return Articulo.objects.filter(
-            categoria__slug=categoria_slug,
-            fecha_publicada__lte=timezone.now()
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Categoria.objects.all()  
-        context['categoria_actual'] = self.kwargs.get('slug')  
-        return context
-
-class Resultado_vista(generic.ListView):
-    model = Articulo
-    template_name = 'home.html'
-
-    def get_queryset(self):
-        query = self.request.GET.get('q', '')  
-        if query:  # Verifica que haya contenido en query
-            return Articulo.objects.filter(
-                Q(titulo__icontains=query) | Q(categoria__nombre__icontains=query),
-                fecha_publicada__lte=timezone.now()
-            ).distinct()
-        else:
-            return Articulo.objects.none()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Categoria.objects.all()  # Para mostrar categorías en el menú
-        context['categoria_actual'] = self.kwargs.get('slug')  # Mostrar la categoría actual si es necesario
-        return context
-    
-
-def orden_nuevo(request):
-    articulos = Articulo.objects.all().order_by('-fecha_publicada')[:15]
-
-class ArticuloSearchAndFilterView(ListView):
-    model = Articulo
-    template_name = 'home.html'
-    context_object_name = 'articulos'
-
-    def get_queryset(self):
-        # Obtiene parámetros de búsqueda, filtro y ordenación desde los GET
-        query = self.request.GET.get('q', '')  
-        filtro = self.request.GET.get('filtro', None)
-        orden = self.request.GET.get('orden', '-fecha_publicada')
-
-        # Base queryset: artículos disponibles hasta la fecha actual
-        queryset = Articulo.objects.filter(fecha_publicada__lte=timezone.now())
-
-        # Aplicar filtro por categoría si existe
-        if filtro:
-            queryset = queryset.filter(categoria__nombre=filtro)
-
-        # Aplicar búsqueda si se proporciona una query
-        if query:
-            queryset = queryset.filter(
-                Q(titulo__icontains=query) | Q(categoria__nombre__icontains=query)
-            ).distinct()
-
-        # Aplicar ordenación según el parámetro recibido
-        return queryset.order_by(orden)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Agrega todas las categorías al contexto para el menú
-        context['categories'] = Categoria.objects.all()
-
-        # Mantener los valores actuales de búsqueda, filtro y orden en el contexto
-        context['query_actual'] = self.request.GET.get('q', '')
-        context['filtro_actual'] = self.request.GET.get('filtro', '')
-        context['orden_actual'] = self.request.GET.get('orden', '-fecha_publicada')
-
-        return context
