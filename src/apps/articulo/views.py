@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.views.generic import ListView
 from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
@@ -8,16 +8,24 @@ from django.utils import timezone
 from django.views import generic
 from django.db.models import Q
 
-def home_view(request):
-    categorias = Categoria.objects.all()
-    articulos = Articulo.objects.all().order_by('-fecha_publicada')[:15]
-
-    context = {
-        'articulos': articulos,
-        'categories': categorias,
-    }
+class home_view(ListView):
+    model = Articulo
+    template_name = 'home.html'
+    context_object_name = 'articulos'
+    ordering = '-fecha_publicada'  # Orden predeterminado
     
-    return render(request, 'home.html', context)
+    def get_queryset(self):
+        # Obtenemos el parámetro de orden de la URL, si existe
+        orden = self.request.GET.get('orden', '-fecha_publicada')
+        
+        # Devolvemos los artículos ordenados según el parámetro recibido
+        return Articulo.objects.all().order_by(orden)[:15]
+
+    def get_context_data(self, **kwargs):
+        # Agregamos las categorías al contexto
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Categoria.objects.all()
+        return context
 
 @login_required
 def articulo_detalle(request, slug):
@@ -105,3 +113,7 @@ class Resultado_vista(generic.ListView):
         context['categories'] = Categoria.objects.all()  # Para mostrar categorías en el menú
         context['categoria_actual'] = self.kwargs.get('slug')  # Mostrar la categoría actual si es necesario
         return context
+    
+
+def orden_nuevo(request):
+    articulos = Articulo.objects.all().order_by('-fecha_publicada')[:15]
