@@ -34,7 +34,7 @@
     <!-- Lista de comentarios -->
     {% for comentario in comentarios %}
         <div class="comentario">
-            <p><strong>{{ comentario.autor }}</strong> el {{ comentario.fecha_publicada }}</p>
+            <p><strong>{{ comentario.autor }}</strong> {{ comentario.fecha_publicada }}</p>
             <p>{{ comentario.contenido }}</p>
 
             <!-- Opciones para editar/eliminar comentario si es el autor o colaborador/admin -->
@@ -42,7 +42,7 @@
                 <a href="?editar={{ comentario.id }}" class="btn btn-secondary btn-sm">Editar</a>
                 <form method="POST" action="{% url 'eliminar_comentario' articulo.slug %}" style="display:inline;">
                     {% csrf_token %}
-                    <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
+                    <input type="hidden" name="comentario_id" value="{{ comentario.slug }}">
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este comentario?');">Eliminar</button>
                 </form>
             {% endif %}
