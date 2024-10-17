@@ -13,6 +13,15 @@
         {{ articulo.contenido|linebreaks }}
     </div>
     <p><strong>Categoría:</strong> {{ articulo.categoria.nombre }}</p>
+    {% if user.is_authenticated and user == articulo.autor or es_colaborador_o_admin %}
+    <div class="opciones-articulo">
+        <a href="{% url 'editar_articulo' articulo.slug %}">Editar</a>
+        <form method="POST" action="{% url 'eliminar_articulo' articulo.slug %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este artículo?');">Eliminar</button>
+        </form>
+    </div>
+{% endif %}
 </div>
 
 <!-- Sección de comentarios -->

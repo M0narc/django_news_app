@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
@@ -8,8 +10,10 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View, generic
 from django.db.models import Q
+from .forms import ArticuloForm
 
-class home_view(ListView):
+
+class HomeView(ListView):
     model = Articulo
     template_name = 'home.html'
     context_object_name = 'articulos'
@@ -27,6 +31,7 @@ class home_view(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Categoria.objects.all()
         return context
+
 
 @method_decorator(login_required, name='dispatch')
 class ArticuloDetalleView(DetailView):
@@ -49,6 +54,27 @@ class ArticuloDetalleView(DetailView):
             context['comentario_en_edicion'] = get_object_or_404(Comentario, id=comentario_id)
         
         return context
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        articulo = self.object
+
+        # Procesar el formulario de edición del artículo
+        if 'editar_articulo' in request.POST:
+            form_articulo = ArticuloForm(request.POST, instance=articulo)
+            if form_articulo.is_valid():
+                form_articulo.save()
+                return redirect('detalle_articulo', slug=articulo.slug)
+            
+        # Lógica para eliminar el artículo
+        if 'eliminar' in request.POST:
+            articulo.delete()
+            return redirect('home')
+
+        return self.get(request, *args, **kwargs)
+
+
+
 
 class ComentarioView(View):
     def post(self, request, slug):
@@ -112,7 +138,43 @@ class Resultado_vista(ListView):
         context['categories'] = Categoria.objects.all()  # Para mostrar categorías en el menú
         context['categoria_actual'] = self.kwargs.get('slug')  # Mostrar la categoría actual si es necesario
         return context
+
+
+class ArticuloUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Articulo
+    form_class = ArticuloForm  # Asegúrate de tener este formulario creado
+    template_name = 'articulo/articulo_form.html'  # Personaliza esta plantilla
+    context_object_name = 'articulo'
+
+    def get_success_url(self):
+        """Redirige al detalle del artículo después de editar."""
+        return reverse_lazy('detalle_articulo', kwargs={'slug': self.object.slug})
+
+    def test_func(self):
+        """Permitir editar solo a autores, colaboradores o superusuarios."""
+        articulo = self.get_object()
+        return (
+            self.request.user == articulo.autor or 
+            self.request.user.groups.filter(name='COLABORADOR').exists() or 
+            self.request.user.is_superuser
+        )
     
+
+class ArticuloDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Articulo
+    template_name = 'articulo/articulo_confirm_delete.html'  # Personaliza esta plantilla
+    context_object_name = 'articulo'
+    success_url = reverse_lazy('home')  # Redirige a la página principal después de eliminar
+
+    def test_func(self):
+        """Permitir eliminar solo a autores, colaboradores o superusuarios."""
+        articulo = self.get_object()
+        return (
+            self.request.user == articulo.autor or 
+            self.request.user.groups.filter(name='COLABORADOR').exists() or 
+            self.request.user.is_superuser
+        )
+
 
 def orden_nuevo(request):
     articulos = Articulo.objects.all().order_by('-fecha_publicada')[:15]
