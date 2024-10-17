@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['monarc.pythonanywhere.com']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
