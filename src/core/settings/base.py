@@ -32,7 +32,8 @@ ALLOWED_HOSTS = ['https://monarc.pythonanywhere.com/']
 if DEBUG:
     ALLOWED_HOSTS += [
         "127.0.0.1",
-        "localhost"
+        "localhost",
+        "monarc.pythonanywhere.com"
     ]
 
 
