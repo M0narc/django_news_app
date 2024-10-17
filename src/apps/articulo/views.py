@@ -12,21 +12,29 @@ class home_view(ListView):
     model = Articulo
     template_name = 'home.html'
     context_object_name = 'articulos'
-    ordering = '-fecha_publicada'  # Orden predeterminado
-    
+    ordering = '-fecha_publicada'
+
     def get_queryset(self):
-        # Obtenemos el parámetro de orden de la URL, si existe
         orden = self.request.GET.get('orden', '-fecha_publicada')
-        
-        # Devolvemos los artículos ordenados según el parámetro recibido
-        return Articulo.objects.all().order_by(orden)[:15]
+        filtro = self.request.GET.get('filtro', None)
+
+        # Filtra por categoría si se proporciona un filtro
+        queryset = Articulo.objects.all()
+        if filtro:
+            queryset = queryset.filter(categoria__nombre=filtro)
+
+        # Aplica la ordenación
+        return queryset.order_by(orden)
 
     def get_context_data(self, **kwargs):
-        # Agregamos las categorías al contexto
         context = super().get_context_data(**kwargs)
+        # Agrega todas las categorías al contexto para el dropdown
         context['categories'] = Categoria.objects.all()
+        # Mantener los valores actuales de filtro y orden en el contexto
+        context['filtro_actual'] = self.request.GET.get('filtro', '')
+        context['orden_actual'] = self.request.GET.get('orden', '-fecha_publicada')
         return context
-
+    
 @login_required
 def articulo_detalle(request, slug):
     articulo = get_object_or_404(Articulo, slug=slug)
@@ -96,7 +104,7 @@ class Categoria_vista(generic.ListView):
 
 class Resultado_vista(generic.ListView):
     model = Articulo
-    template_name = 'articulo/resultados.html'
+    template_name = 'home.html'
 
     def get_queryset(self):
         query = self.request.GET.get('q', '')  

@@ -1,44 +1,143 @@
 {% extends 'base.html' %}
 
-{% block title %}Artículos de {{ categoria_actual }}{% endblock %}
+{% block title %}TECNOTICIAS{% endblock %}
 
 {% block content %}
-<div class="bg-white py-24 sm:py-32">
+<div class="bg-white py-8 sm:py-32">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl lg:mx-0">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        Artículos de {{ categoria_actual }}
-      </h2>
-      <p class="mt-2 text-lg leading-8 text-gray-600">Explora los artículos sobre esta categoría.</p>
+    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Trending</h2>
+    <p class="mt-2 text-lg leading-8 text-gray-600">Aprende de las nuevas tecnologías del mundo con nosotros.</p>
+    
+
+    <div class="flex pb-8 gap-4 mt-10">
+      <button id="dropdownOrdenButton" 
+              data-dropdown-toggle="orden" 
+              class="w-36 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                     focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
+                     inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
+              type="button">
+        Ordenar Por:
+        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" 
+             fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
+                stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+      </button>
+    
+      <div id="orden" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownOrdenButton">
+          <li><a href="?orden=-fecha_publicada&filtro={{ filtro_actual }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Más Nuevo</a></li>
+          <li><a href="?orden=fecha_publicada&filtro={{ filtro_actual }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Más Antiguo</a></li>
+          <li><a href="?orden=titulo&filtro={{ filtro_actual }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">A-Z</a></li>
+          <li><a href="?orden=-titulo&filtro={{ filtro_actual }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Z-A</a></li>
+        </ul>
+      </div>
+    
+      <button id="dropdownCategoriaButton" 
+              data-dropdown-toggle="Categorias" 
+              class="w-36 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+                     focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
+                     inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
+              type="button">
+        Categorías
+        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" 
+             fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
+                stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+      </button>
+    
+      <div id="Categorias" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCategoriaButton">
+          {% for categoria in categories %}
+          <li>
+            <a href="?filtro={{ categoria.nombre }}&orden={{ orden_actual }}" 
+               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              {{ categoria.nombre }}
+            </a>
+          </li>
+          {% endfor %}
+          <li>
+            <a href="?filtro=&orden={{ orden_actual }}" 
+               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              Todas
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-6 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-
       {% for articulo in object_list %}
-      <article class="border p-4 rounded-lg shadow-lg mb-6">
-        <div class="flex justify-between items-center">
-          <time datetime="{{ articulo.fecha_publicada }}" class="text-gray-500">{{ articulo.fecha_publicada }}</time>
-          <a href="#" class="inline-block max-w-xs truncate rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-            {{ articulo.categoria.nombre }}
-          </a>
-        </div>
-        <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900">
-          <a href="#">{{ articulo.titulo }}</a>
-        </h3>
-        <p class="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">{{ articulo.contenido|truncatewords:20 }}</p>
-        <div class="mt-4 flex items-center">
-          <img src="{{ articulo.autor.avatar.url }}" alt="" class="h-10 w-10 rounded-full bg-gray-50">
-          <div class="text-sm leading-6 ml-2">
-            <p class="font-semibold text-gray-900">
-              <a href="#">{{ articulo.autor.nombre }} {{ articulo.autor.apellido }}</a>
-            </p>
-            <p class="text-gray-600">{{ articulo.autor.biografia }}</p>
-          </div>
-        </div>
-      </article>
-      {% empty %}
-      <p>No hay artículos en esta categoría todavía.</p>
-      {% endfor %}
+        <div class="bg-white p-2.5 w-full max-w-3xl h-96 rounded-2xl shadow-lg flex gap-5 select-none shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+          
+          {% if forloop.counter|divisibleby:2 %}
+            <!-- Si el número de la iteración es par, primero el contenido y luego la imagen -->
+            <div class="flex flex-col justify-between p-4 leading-normal">
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ articulo.titulo }}</h5>
 
+              <!-- Bloque para mostrar el autor, avatar más pequeño y texto más chico -->
+              <div class="flex items-center mt-1">
+                <img class="w-6 h-6 rounded-full" src="{{ articulo.autor.avatar.url }}" alt="Avatar de {{ articulo.autor.username }}">
+                <p class="ml-2 text-sm text-gray-600">
+                    Escrito por: <span class="font-semibold">{{ articulo.autor.username }}</span>
+                </p>
+              </div>
+
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ articulo.contenido|truncatewords:20 }}</p>
+
+              <div class="flex gap-4 mt-auto">
+                <a href="{% url 'detalle_articulo' articulo.slug %}" class="flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500">
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M464 512a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm200 0a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm-400 0a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm661.2-173.6c-22.6-53.7-55-101.9-96.3-143.3a444.35 444.35 0 0 0-143.3-96.3C630.6 75.7 572.2 64 512 64h-2c-60.6.3-119.3 12.3-174.5 35.9a445.35 445.35 0 0 0-142 96.5c-40.9 41.3-73 89.3-95.2 142.8-23 55.4-34.6 114.3-34.3 174.9A449.4 449.4 0 0 0 112 714v152a46 46 0 0 0 46 46h152.1A449.4 449.4 0 0 0 510 960h2.1c59.9 0 118-11.6 172.7-34.3a444.48 444.48 0 0 0 142.8-95.2c41.3-40.9 73.8-88.7 96.5-142 23.6-55.2 35.6-113.9 35.9-174.5.3-60.9-11.5-120-34.8-175.6zm-151.1 438C704 845.8 611 884 512 884h-1.7c-60.3-.3-120.2-15.3-173.1-43.5l-8.4-4.5H188V695.2l-4.5-8.4C155.3 633.9 140.3 574 140 513.7c-.4-99.7 37.7-193.3 107.6-263.8 69.8-70.5 163.1-109.5 262.8-109.9h1.7c50 0 98.5 9.7 144.2 28.9 44.6 18.7 84.6 45.6 119 80 34.3 34.3 61.3 74.4 80 119 19.4 46.2 29.1 95.2 28.9 145.8-.6 99.6-39.7 192.5-109.9 262.8-70.5 69.8-163.1 107.6-263.8 107.6h-1.5zM594 512a82 82 0 1 0 164 0 82 82 0 1 0-164 0z"></path>
+                  </svg>
+                  <span>Leer artículo</span>
+                </a>
+              </div>
+            </div>
+
+            <a href="{% url 'detalle_articulo' articulo.slug %}" class="flex flex-col w-full items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+              {% if articulo.imagen_portada %}
+                <img src="{{ articulo.imagen_portada.url }}" alt="{{ articulo.titulo }}" class="object-cover w-full rounded-t-lg h-full md:h-64 md:w-96 md:rounded-none md:rounded-s-lg" />
+              {% else %}
+                <div class="flex items-center justify-center h-full text-gray-400">Sin imagen disponible</div>
+              {% endif %}
+            </a>
+
+          {% else %}
+            <!-- Si el número de la iteración es impar, primero la imagen y luego el contenido -->
+            <a href="{% url 'detalle_articulo' articulo.slug %}" class="flex flex-col w-full items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+              {% if articulo.imagen_portada %}
+                <img src="{{ articulo.imagen_portada.url }}" alt="{{ articulo.titulo }}" class="object-cover w-full rounded-t-lg h-full md:h-64 md:w-96 md:rounded-none md:rounded-s-lg" />
+              {% else %}
+                <div class="flex items-center justify-center h-full text-gray-400">Sin imagen disponible</div>
+              {% endif %}
+            </a>
+
+            <div class="flex flex-col justify-between p-4 leading-normal">
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ articulo.titulo }}</h5>
+
+               <!-- Bloque para mostrar el autor -->
+               <div class="flex items-center mt-1">
+                <img class="w-6 h-6 rounded-full" src="{{ articulo.autor.avatar.url }}" alt="Avatar de {{ articulo.autor.username }}">
+                <p class="ml-2 text-sm text-gray-600">
+                    Escrito por: <span class="font-semibold">{{ articulo.autor.username }}</span>
+                </p>
+              </div>
+
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ articulo.contenido|truncatewords:20 }}</p>
+
+              <div class="flex gap-4 mt-auto">
+                <a href="{% url 'detalle_articulo' articulo.slug %}" class="flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500">
+                  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M464 512a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm200 0a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm-400 0a48 48 0 1 0 96 0 48 48 0 1 0-96 0zm661.2-173.6c-22.6-53.7-55-101.9-96.3-143.3a444.35 444.35 0 0 0-143.3-96.3C630.6 75.7 572.2 64 512 64h-2c-60.6.3-119.3 12.3-174.5 35.9a445.35 445.35 0 0 0-142 96.5c-40.9 41.3-73 89.3-95.2 142.8-23 55.4-34.6 114.3-34.3 174.9A449.4 449.4 0 0 0 112 714v152a46 46 0 0 0 46 46h152.1A449.4 449.4 0 0 0 510 960h2.1c59.9 0 118-11.6 172.7-34.3a444.48 444.48 0 0 0 142.8-95.2c41.3-40.9 73.8-88.7 96.5-142 23.6-55.2 35.6-113.9 35.9-174.5.3-60.9-11.5-120-34.8-175.6zm-151.1 438C704 845.8 611 884 512 884h-1.7c-60.3-.3-120.2-15.3-173.1-43.5l-8.4-4.5H188V695.2l-4.5-8.4C155.3 633.9 140.3 574 140 513.7c-.4-99.7 37.7-193.3 107.6-263.8 69.8-70.5 163.1-109.5 262.8-109.9h1.7c50 0 98.5 9.7 144.2 28.9 44.6 18.7 84.6 45.6 119 80 34.3 34.3 61.3 74.4 80 119 19.4 46.2 29.1 95.2 28.9 145.8-.6 99.6-39.7 192.5-109.9 262.8-70.5 69.8-163.1 107.6-263.8 107.6h-1.5zM594 512a82 82 0 1 0 164 0 82 82 0 1 0-164 0z"></path>
+                  </svg>
+                  <span>Leer artículo</span>
+                </a>
+              </div>
+            </div>
+
+          {% endif %}
+        </div>
+      {% endfor %}
     </div>
   </div>
 </div>
