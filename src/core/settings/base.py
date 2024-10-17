@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-&%*$t^o8+iyg(tcx0$vgp29*0_m*w+w0cls16y%fg)mkwfatk!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# borrar despues
+ALLOWED_HOSTS = ['https://monarc.pythonanywhere.com/']
 
 if DEBUG:
     ALLOWED_HOSTS += [
