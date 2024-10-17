@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.views import generic
+from django.utils.decorators import method_decorator
+from django.views import View, generic
 from django.db.models import Q
 
 class home_view(ListView):
@@ -27,28 +28,37 @@ class home_view(ListView):
         context['categories'] = Categoria.objects.all()
         return context
 
-@login_required
-def articulo_detalle(request, slug):
-    articulo = get_object_or_404(Articulo, slug=slug)
-    comentarios = articulo.comentarios.all()
-
-    es_colaborador_o_admin = request.user.is_superuser or request.user.groups.filter(name='COLABORADOR').exists()
-
-    print("Es es_colaborador_o_admin -> ", request.user.groups)
-
-    # Si hay un comentario en edición, obtener el comentario específico
-    comentario_en_edicion = None
-    comentario_id = request.GET.get('editar', None)
-    if comentario_id:
-        comentario_en_edicion = get_object_or_404(Comentario, id=comentario_id)
-
-    if request.method == 'POST':
-        comentario_id = request.POST.get('comentario_id', None)
+@method_decorator(login_required, name='dispatch')
+class ArticuloDetalleView(DetailView):
+    model = Articulo
+    template_name = 'articulo/articulo.html'
+    context_object_name = 'articulo'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        articulo = self.object
+        context['comentarios'] = articulo.comentarios.all()
+        context['form'] = ComentarioForm()
         
+        # Comprobar si el usuario es colaborador o admin
+        context['es_colaborador_o_admin'] = self.request.user.is_superuser or self.request.user.groups.filter(name='COLABORADOR').exists()
+        
+        # Obtener el comentario en edición si lo hay
+        comentario_id = self.request.GET.get('editar', None)
+        if comentario_id:
+            context['comentario_en_edicion'] = get_object_or_404(Comentario, id=comentario_id)
+        
+        return context
+
+class ComentarioView(View):
+    def post(self, request, slug):
+        articulo = get_object_or_404(Articulo, slug=slug)
+        comentario_id = request.POST.get('comentario_id', None)
+
         # Si estamos editando un comentario
         if comentario_id:
             comentario = get_object_or_404(Comentario, id=comentario_id)
-            if request.user == comentario.autor or es_colaborador_o_admin:
+            if request.user == comentario.autor or request.user.is_superuser or request.user.groups.filter(name='COLABORADOR').exists():
                 form = ComentarioForm(request.POST, instance=comentario)
                 if form.is_valid():
                     form.save()
@@ -62,20 +72,9 @@ def articulo_detalle(request, slug):
                 comentario.autor = request.user
                 comentario.save()
                 return redirect('detalle_articulo', slug=articulo.slug)
-    else:
-        form = ComentarioForm()
+        
+        return redirect('detalle_articulo', slug=articulo.slug)  # Redirigir en caso de error
 
-    context = {
-        'articulo': articulo,
-        'comentarios': comentarios,
-        'form': form,
-        'es_colaborador_o_admin': es_colaborador_o_admin,
-        'comentario_en_edicion': comentario_en_edicion,  # Para saber si hay un comentario en edición
-    }
-
-    return render(request, 'articulo/articulo.html', context)
-
-# http://127.0.0.1:8000/articulo/qa-stuff
 
 class Categoria_vista(generic.ListView):
     model = Articulo
@@ -94,7 +93,7 @@ class Categoria_vista(generic.ListView):
         context['categoria_actual'] = self.kwargs.get('slug')  
         return context
 
-class Resultado_vista(generic.ListView):
+class Resultado_vista(ListView):
     model = Articulo
     template_name = 'articulo/resultados.html'
 

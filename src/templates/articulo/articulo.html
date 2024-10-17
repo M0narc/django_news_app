@@ -19,9 +19,9 @@
 <div class="comentarios">
     <h2>Comentarios</h2>
     
-    {% if articulo.comentarios.exists %}
+    {% if comentarios %}
         <ul>
-            {% for comentario in articulo.comentarios.all %}
+            {% for comentario in comentarios %}
                 <li style="margin-bottom: 20px;">
                     <strong>{{ comentario.autor }}</strong> 
                     {% if comentario.fecha_creacion %} 
@@ -31,7 +31,7 @@
 
                     {% if comentario == comentario_en_edicion %}
                         <!-- Mostrar formulario de edición solo si estamos editando este comentario -->
-                        <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
+                        <form method="POST" action="{% url 'comentar_articulo' articulo.slug %}">
                             {% csrf_token %}
                             {{ form.as_p }}
                             <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
@@ -61,7 +61,7 @@
 <div class="agregar-comentario">
     {% if user.is_authenticated %}
         <h2>Añadir comentario</h2>
-        <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
+        <form method="POST" action="{% url 'comentar_articulo' articulo.slug %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Enviar comentario</button>
@@ -71,3 +71,4 @@
     {% endif %}
 </div>
 {% endblock %}
+

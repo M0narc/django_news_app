@@ -1,12 +1,12 @@
 from django.urls import path
-from . import views 
-from apps.comentario.views import agregar_comentario, eliminar_comentario
+from .views import ArticuloDetalleView, ComentarioView, home_view, Categoria_vista, Resultado_vista
+from apps.comentario.views import agregar_comentario
 
 urlpatterns = [
-    path('', views.home_view.as_view(), name='home'),
+    path('', home_view.as_view(), name='home'),
     path('articulo/<slug:slug>/comentario/', agregar_comentario, name='agregar_comentario'),  
-    path('comentario/<slug:slug>/eliminar/', eliminar_comentario, name='eliminar_comentario'),  
-    path('articulo/<slug:slug>', views.articulo_detalle, name='detalle_articulo'),  
-    path('categoria/<slug:slug>', views.Categoria_vista.as_view(), name= 'categoria'),
-    path('buscar/', views.Resultado_vista.as_view(), name='buscar'),
+    path('articulo/<slug:slug>/', ArticuloDetalleView.as_view(), name='detalle_articulo'),
+    path('articulo/<slug:slug>/comentar/', ComentarioView.as_view(), name='comentar_articulo'),
+    path('categoria/<slug:slug>', Categoria_vista.as_view(), name= 'categoria'),
+    path('buscar/', Resultado_vista.as_view(), name='buscar'),
 ]
