@@ -13,7 +13,7 @@ from django.db.models import Q
 from .forms import ArticuloForm
 
 
-class ArticuloSearchAndFilterView(ListView):
+class HomeView(ListView):
     model = Articulo
     template_name = 'home.html'
     context_object_name = 'articulos'
