@@ -17,19 +17,39 @@ class HomeView(ListView):
     model = Articulo
     template_name = 'home.html'
     context_object_name = 'articulos'
-    ordering = '-fecha_publicada'  # Orden predeterminado
-    
+
     def get_queryset(self):
-        # Obtenemos el parámetro de orden de la URL, si existe
+        # Obtiene parámetros de búsqueda, filtro y ordenación desde los GET
+        query = self.request.GET.get('q', '')  
+        filtro = self.request.GET.get('filtro', None)
         orden = self.request.GET.get('orden', '-fecha_publicada')
-        
-        # Devolvemos los artículos ordenados según el parámetro recibido
-        return Articulo.objects.all().order_by(orden)[:15]
+
+        # Base queryset: artículos disponibles hasta la fecha actual
+        queryset = Articulo.objects.filter(fecha_publicada__lte=timezone.now())
+
+        # Aplicar filtro por categoría si existe
+        if filtro:
+            queryset = queryset.filter(categoria__nombre=filtro)
+
+        # Aplicar búsqueda si se proporciona una query
+        if query:
+            queryset = queryset.filter(
+                Q(titulo__icontains=query) | Q(categoria__nombre__icontains=query)
+            ).distinct()
+
+        # Aplicar ordenación según el parámetro recibido
+        return queryset.order_by(orden)
 
     def get_context_data(self, **kwargs):
-        # Agregamos las categorías al contexto
         context = super().get_context_data(**kwargs)
+        # Agrega todas las categorías al contexto para el menú
         context['categories'] = Categoria.objects.all()
+
+        # Mantener los valores actuales de búsqueda, filtro y orden en el contexto
+        context['query_actual'] = self.request.GET.get('q', '')
+        context['filtro_actual'] = self.request.GET.get('filtro', '')
+        context['orden_actual'] = self.request.GET.get('orden', '-fecha_publicada')
+
         return context
 
 
@@ -74,8 +94,6 @@ class ArticuloDetalleView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-
-
 class ComentarioView(View):
     def post(self, request, slug):
         articulo = get_object_or_404(Articulo, slug=slug)
@@ -100,44 +118,6 @@ class ComentarioView(View):
                 return redirect('detalle_articulo', slug=articulo.slug)
         
         return redirect('detalle_articulo', slug=articulo.slug)  # Redirigir en caso de error
-
-
-class Categoria_vista(generic.ListView):
-    model = Articulo
-    template_name = 'articulo/resultados.html' 
-
-    def get_queryset(self):
-        categoria_slug = self.kwargs.get('slug')
-        return Articulo.objects.filter(
-            categoria__slug=categoria_slug,
-            fecha_publicada__lte=timezone.now()
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Categoria.objects.all()  
-        context['categoria_actual'] = self.kwargs.get('slug')  
-        return context
-
-class Resultado_vista(ListView):
-    model = Articulo
-    template_name = 'articulo/resultados.html'
-
-    def get_queryset(self):
-        query = self.request.GET.get('q', '')  
-        if query:  # Verifica que haya contenido en query
-            return Articulo.objects.filter(
-                Q(titulo__icontains=query) | Q(categoria__nombre__icontains=query),
-                fecha_publicada__lte=timezone.now()
-            ).distinct()
-        else:
-            return Articulo.objects.none()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Categoria.objects.all()  # Para mostrar categorías en el menú
-        context['categoria_actual'] = self.kwargs.get('slug')  # Mostrar la categoría actual si es necesario
-        return context
 
 
 class ArticuloUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
