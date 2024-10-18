@@ -35,6 +35,14 @@
                     {% if orden_actual == 'fecha_publicada' %}selected{% endif %}>
                 Más antiguos
             </option>
+            <option value="titulo" 
+                    {% if orden_actual == 'titulo' %}selected{% endif %}>
+                A-Z
+            </option>
+            <option value="-titulo" 
+                    {% if orden_actual == '-titulo' %}selected{% endif %}>
+                Z-A
+            </option>
         </select>
         <input 
         type="text" 
