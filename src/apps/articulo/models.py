@@ -22,6 +22,7 @@ class Categoria(models.Model):
             self.slug = slugify(self.nombre)
         super().save(*args, **kwargs) 
 
+
 class Articulo(models.Model):
     id = models.AutoField(primary_key=True, unique=True, editable = False)
     slug = models.SlugField(unique=True)
@@ -43,4 +44,3 @@ class Articulo(models.Model):
         if not self.slug:
             self.slug = slugify(self.titulo)
         super().save(*args, **kwargs) 
-

@@ -94,8 +94,6 @@ class ArticuloDetalleView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-
-
 class ComentarioView(View):
     def post(self, request, slug):
         articulo = get_object_or_404(Articulo, slug=slug)
@@ -120,10 +118,6 @@ class ComentarioView(View):
                 return redirect('detalle_articulo', slug=articulo.slug)
         
         return redirect('detalle_articulo', slug=articulo.slug)  # Redirigir en caso de error
-
-
-
-
 
 
 class ArticuloUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
