@@ -13,15 +13,24 @@
         {{ articulo.contenido|linebreaks }}
     </div>
     <p><strong>Categoría:</strong> {{ articulo.categoria.nombre }}</p>
+    {% if user.is_authenticated and user == articulo.autor or es_colaborador_o_admin %}
+    <div class="opciones-articulo">
+        <a href="{% url 'editar_articulo' articulo.slug %}">Editar</a>
+        <form method="POST" action="{% url 'eliminar_articulo' articulo.slug %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este artículo?');">Eliminar</button>
+        </form>
+    </div>
+{% endif %}
 </div>
 
 <!-- Sección de comentarios -->
 <div class="comentarios">
     <h2>Comentarios</h2>
     
-    {% if articulo.comentarios.exists %}
+    {% if comentarios %}
         <ul>
-            {% for comentario in articulo.comentarios.all %}
+            {% for comentario in comentarios %}
                 <li style="margin-bottom: 20px;">
                     <strong>{{ comentario.autor }}</strong> 
                     {% if comentario.fecha_creacion %} 
@@ -31,7 +40,7 @@
 
                     {% if comentario == comentario_en_edicion %}
                         <!-- Mostrar formulario de edición solo si estamos editando este comentario -->
-                        <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
+                        <form method="POST" action="{% url 'comentar_articulo' articulo.slug %}">
                             {% csrf_token %}
                             {{ form.as_p }}
                             <input type="hidden" name="comentario_id" value="{{ comentario.id }}">
@@ -61,7 +70,7 @@
 <div class="agregar-comentario">
     {% if user.is_authenticated %}
         <h2>Añadir comentario</h2>
-        <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
+        <form method="POST" action="{% url 'comentar_articulo' articulo.slug %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Enviar comentario</button>
@@ -71,3 +80,4 @@
     {% endif %}
 </div>
 {% endblock %}
+
