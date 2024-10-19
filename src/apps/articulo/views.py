@@ -123,8 +123,28 @@ class ComentarioView(View):
 class ArticuloUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Articulo
     form_class = ArticuloForm  # Asegúrate de tener este formulario creado
-    template_name = 'articulo/articulo_form.html'  # Personaliza esta plantilla
+    template_name = 'articulo/articulo_form.html'
     context_object_name = 'articulo'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()  # Agregar todas las categorías al contexto
+        return context
+
+    def form_valid(self, form):
+        # Manejar archivos correctamente al guardar el formulario
+        form.save()
+        return super().form_valid(form)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        
+        # Asegurarse de pasar request.FILES para manejar los archivos
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def get_success_url(self):
         """Redirige al detalle del artículo después de editar."""
