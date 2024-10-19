@@ -1,10 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Editar Artículo: {{ articulo.titulo }}</h2>
-  <form method="POST">
+<!-- component -->
+<div class="heading text-center font-bold text-2xl m-5 text-gray-800">Editar Artículo</div>
+<style>
+  body {background:white !important;}
+</style>
+<div class="editor mx-auto w-full max-w-4xl flex flex-col text-gray-800 border border-gray-300 p-4 shadow-lg">
+  <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar cambios</button>
+
+    <!-- Título -->
+    <label class="block mb-2 text-sm font-bold text-gray-900">Editar título del artículo</label>
+    <input class="title bg-gray-100 border border-gray-300 p-2 mb-4 outline-none w-full" spellcheck="false" 
+           placeholder="Editar Título" type="text" name="titulo" value="{{ form.titulo.value }}">
+    
+    <!-- Categoría -->
+    <label class="block mb-2 text-sm font-bold text-gray-900">Editar categoría del artículo</label>
+    <select name="categoria" class="bg-gray-100 border border-gray-300 p-2 mb-4 outline-none w-full">
+      <option value="">Selecciona una categoría</option>
+      {% for categoria in categorias %}
+        <option value="{{ categoria.id }}" {% if categoria.id == form.instance.categoria.id %}selected{% endif %}>{{ categoria.nombre }}</option>
+      {% endfor %}
+    </select>
+           
+
+    <!-- Imagen -->
+    <label class="block mb-2 text-sm font-bold text-gray-900">Editar imagen del artículo</label>
+    <input type="file" class="file-input mb-4 w-full border border-gray-300 p-2" name="imagen_portada">
+
+    <!-- Contenido -->
+    <label class="block mb-2 text-sm font-bold text-gray-900">Editar contenido del artículo</label>
+    <textarea class="description bg-gray-100 sec p-3 h-96 border border-gray-300 outline-none w-full" 
+              spellcheck="false" placeholder="Editar el contenido del artículo" 
+              name="contenido">{{ form.contenido.value }}</textarea>
+
+    <!-- Botones -->
+    <div class="buttons flex mt-4">
+      <button type="submit" class="btn border border-indigo-500 p-1 px-4 font-semibold cursor-pointer text-gray-200 bg-indigo-500">Guardar cambios</button>
+      <a href="{% url 'detalle_articulo' articulo.slug %}" class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-2">Cancelar</a>
+    </div>
   </form>
+</div>
 {% endblock %}
+

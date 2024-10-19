@@ -61,6 +61,7 @@
                         <input type="hidden" name="comentario_id" value="{{ comentario_en_edicion.id }}">
                         {{ form.as_p }}  <!-- Este es el formulario que contiene solo el comentario en edición -->
                         <button type="submit" name="editar_comentario" class="text-blue-500 hover:text-gray-900 btn btn-primary">Guardar cambios</button>
+
                     </form>
                 </div>
                 {% endif %}
@@ -71,7 +72,7 @@
         <p>No hay comentarios aún.</p>
         {% endif %}
     </div>
-    
+
     <!-- Formulario para añadir un comentario -->
     <div class="agregar-comentario mt-6">
         {% if user.is_authenticated %}
@@ -85,4 +86,5 @@
         <p><a href="{% url 'login' %}" class="text-blue-500">Inicia sesión</a> para dejar un comentario.</p>
         {% endif %}
     </div>
+</div>
 {% endblock %}

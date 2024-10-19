@@ -10,12 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 from pathlib import Path
+from logging.handlers import TimedRotatingFileHandler
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-print(BASE_DIR)
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -145,8 +143,6 @@ STATIC_ROOT = BASE_DIR.parent / "local-cdn"
 # Media -> Imagenes, audios, videos que van surgiendo o creciendo a lo largo de la ejecución.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-print(MEDIA_URL)
-print(MEDIA_ROOT)
 
 # Configuración para usar el servidor SMTP de Gmail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -162,4 +158,87 @@ EMAIL_HOST_PASSWORD = 'lguy xzur qsvk krdc'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# login de usuarios
 LOGIN_URL = "/auth/login"
+
+# Verifica y crea el directorio de logs si no existe
+log_directory = Path(BASE_DIR / 'logs')
+if not log_directory.exists():
+    log_directory.mkdir(parents=True, exist_ok=True)
+
+# forma de formateo de nuestros logs para para ver en la consola
+FORMATTERS = {
+    "verbose": {
+        "format": "{levelname} {asctime} {threadName} {thread:d} {module} {filename} {lineno:d} {name} {funcName} {process:d} {message}",
+        "style": "{",
+    },
+    "simple": {
+        "format": "{levelname} {asctime} {module} {filename} {lineno:d} {funcName} {message}",
+        "style": "{",
+    },
+}
+
+# manejo de datos y donde vamos a guardar los logs en detalle
+HANDLERS = {
+    "console_handler": {
+        "class": "logging.StreamHandler",
+        "formatter": "simple",
+    },
+    "file_handler": {
+        "class": "logging.handlers.TimedRotatingFileHandler",
+        "filename": str(log_directory / 'blogthedata.log'),
+        "when": "midnight",  # Rota los archivos a medianoche
+        "interval": 1,  # Cada 1 día
+        "backupCount": 14,  # Mantiene logs por 14 días
+        "encoding": "utf-8",
+        "formatter": "simple",
+    },
+    "file_handler_detailed": {
+        "class": "logging.handlers.TimedRotatingFileHandler",
+        "filename": str(log_directory / 'blogthedata_detailed.log'),
+        "when": "midnight",  # Rota los archivos a medianoche
+        "interval": 1,  # Cada 1 día
+        "backupCount": 14,  # Mantiene logs detallados por 14 días
+        "encoding": "utf-8",
+        "formatter": "verbose",
+    },
+}
+
+# tipos de logs y su nivel de relevancia
+LOGGERS = {
+    "django": {
+        "handlers": ["console_handler", "file_handler_detailed"],
+        "level": "INFO",  # Puedes usar "DEBUG" en desarrollo si prefieres más detalle
+        "propagate": False,
+    },
+    "django.request": {
+        "handlers": ["file_handler"],
+        "level": "WARNING",
+        "propagate": False,
+    },
+    # Agrega un logger para tu aplicación
+    "apps.user_auth": { 
+        "handlers": ["console_handler", "file_handler_detailed"],
+        "level": "DEBUG",
+        "propagate": False,
+    },
+    "apps.articulo": {
+        "handlers": ["console_handler", "file_handler_detailed"],
+        "level": "DEBUG",
+        "propagate": False,
+    },
+    "apps.comentario": {
+        "handlers": ["console_handler", "file_handler_detailed"],
+        "level": "DEBUG",
+        "propagate": False,
+    },
+}
+
+# aca metemos todo lo de arriba
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": FORMATTERS,
+    "handlers": HANDLERS,
+    "loggers": LOGGERS,
+}
