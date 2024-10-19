@@ -3,8 +3,10 @@ from django.conf import settings
 from django.shortcuts import render
 from .forms import ContactForm
 
+
 def home(request):
     return render(request, 'home.html')
+
 
 def contacto(request):
     if request.method == 'POST':

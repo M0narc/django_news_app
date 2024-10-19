@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
@@ -8,7 +8,7 @@ from apps.comentario.forms import ComentarioForm
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views import View, generic
+from django.views import View
 from django.db.models import Q
 from .forms import ArticuloForm
 
@@ -53,7 +53,6 @@ class HomeView(ListView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
 class ArticuloDetalleView(DetailView):
     model = Articulo
     template_name = 'articulo/articulo.html'
