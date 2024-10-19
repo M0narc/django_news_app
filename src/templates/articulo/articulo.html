@@ -51,6 +51,19 @@
                     <button type="submit" class="text-red-500 hover:text-red-700" onclick="return confirm('¿Estás seguro de que deseas eliminar este comentario?');">Eliminar</button>
                 </form>
                 {% endif %}
+
+                <!-- Formulario para editar el comentario actual si está en edición -->
+                {% if comentario.id == comentario_en_edicion.id %}
+                <div class="mt-2">
+                    <h2 class="text-lg font-bold mb-2 text-blue-500">Editar comentario:</h2>
+                    <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="comentario_id" value="{{ comentario_en_edicion.id }}">
+                        {{ form.as_p }}  <!-- Este es el formulario que contiene solo el comentario en edición -->
+                        <button type="submit" name="editar_comentario" class="btn btn-primary">Guardar cambios</button>
+                    </form>
+                </div>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
@@ -58,7 +71,7 @@
         <p>No hay comentarios aún.</p>
         {% endif %}
     </div>
-    
+
     <!-- Formulario para añadir un comentario -->
     <div class="agregar-comentario mt-6">
         {% if user.is_authenticated %}
@@ -72,4 +85,5 @@
         <p><a href="{% url 'login' %}" class="text-blue-500">Inicia sesión</a> para dejar un comentario.</p>
         {% endif %}
     </div>
+</div>
 {% endblock %}

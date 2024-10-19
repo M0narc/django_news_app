@@ -93,12 +93,21 @@ class ArticuloDetalleView(DetailView):
                 return redirect('detalle_articulo', slug=articulo.slug)
             else:
                 logger.warning(f"El formulario de edición de artículo no es válido para {articulo.titulo}")
-            
-        # Lógica para eliminar el artículo
-        if 'eliminar' in request.POST:
-            articulo.delete()
-            logger.info(f"El artículo {articulo.titulo} está siendo eliminado por {request.user}")
-            return redirect('home')
+                context = self.get_context_data()  # Obtiene el contexto
+                context['form_articulo'] = form_articulo  # Agrega el formulario al contexto
+                return self.render_to_response(context)
+        
+        # Procesar el formulario de comentario
+        if 'editar_comentario' in request.POST:
+            comentario_id = request.POST.get('comentario_id')
+            comentario = get_object_or_404(Comentario, id=comentario_id)
+            form_comentario = ComentarioForm(request.POST, instance=comentario)
+            if form_comentario.is_valid():
+                form_comentario.save()
+                logger.info(f"Comentario editado con éxito por {request.user}")
+                return redirect('detalle_articulo', slug=articulo.slug)
+            else:
+                logger.warning("Error al editar el comentario.")
 
         return self.get(request, *args, **kwargs)
 
