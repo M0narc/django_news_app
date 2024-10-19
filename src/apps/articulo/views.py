@@ -1,14 +1,22 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
 from django.utils import timezone
+<<<<<<< HEAD
 from django.views import View
+=======
+>>>>>>> 64aefb8 (loggers)
 from django.db.models import Q
 from .forms import ArticuloForm
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class HomeView(ListView):
@@ -59,6 +67,7 @@ class ArticuloDetalleView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         articulo = self.object
+        logger.info(f"Usuario {self.request.user} accedió al detalle del artículo {articulo.titulo}")
         context['comentarios'] = articulo.comentarios.all()
         context['form'] = ComentarioForm()
         
@@ -68,6 +77,7 @@ class ArticuloDetalleView(DetailView):
         # Obtener el comentario en edición si lo hay
         comentario_id = self.request.GET.get('editar', None)
         if comentario_id:
+            logger.info(f"El usuario {self.request.user} está editando el comentario {comentario_id}")
             context['comentario_en_edicion'] = get_object_or_404(Comentario, id=comentario_id)
         
         return context
@@ -78,14 +88,19 @@ class ArticuloDetalleView(DetailView):
 
         # Procesar el formulario de edición del artículo
         if 'editar_articulo' in request.POST:
+            logger.info(f"El usuario {request.user} está editando el artículo {articulo.titulo}")
             form_articulo = ArticuloForm(request.POST, instance=articulo)
             if form_articulo.is_valid():
                 form_articulo.save()
+                logger.info(f"Artículo {articulo.titulo} editado con éxito por {request.user}")
                 return redirect('detalle_articulo', slug=articulo.slug)
+            else:
+                logger.warning(f"El formulario de edición de artículo no es válido para {articulo.titulo}")
             
         # Lógica para eliminar el artículo
         if 'eliminar' in request.POST:
             articulo.delete()
+            logger.info(f"El artículo {articulo.titulo} está siendo eliminado por {request.user}")
             return redirect('home')
 
         return self.get(request, *args, **kwargs)
@@ -100,18 +115,23 @@ class ComentarioView(View):
         if comentario_id:
             comentario = get_object_or_404(Comentario, id=comentario_id)
             if request.user == comentario.autor or request.user.is_superuser or request.user.groups.filter(name='COLABORADOR').exists():
+                logger.info(f"Usuario {request.user} está editando el comentario {comentario_id}")
                 form = ComentarioForm(request.POST, instance=comentario)
                 if form.is_valid():
                     form.save()
                     return redirect('detalle_articulo', slug=articulo.slug)
+                else:
+                    logger.warning(f"El formulario de edición de comentario {comentario_id} no es válido")
         else:
             # Añadir nuevo comentario
+            logger.info(f"Usuario {request.user} está añadiendo un nuevo comentario al artículo {articulo.titulo}")
             form = ComentarioForm(request.POST)
             if form.is_valid():
                 comentario = form.save(commit=False)
                 comentario.articulo = articulo
                 comentario.autor = request.user
                 comentario.save()
+                logger.info(f"Nuevo comentario añadido al artículo {articulo.titulo} por {request.user}")
                 return redirect('detalle_articulo', slug=articulo.slug)
         
         return redirect('detalle_articulo', slug=articulo.slug)  # Redirigir en caso de error
@@ -145,16 +165,20 @@ class ArticuloUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         """Redirige al detalle del artículo después de editar."""
+        logger.info(f"Artículo {self.object.titulo} actualizado correctamente por {self.request.user}")
         return reverse_lazy('detalle_articulo', kwargs={'slug': self.object.slug})
 
     def test_func(self):
         """Permitir editar solo a autores, colaboradores o superusuarios."""
         articulo = self.get_object()
-        return (
+        is_authorized = (
             self.request.user == articulo.autor or 
             self.request.user.groups.filter(name='COLABORADOR').exists() or 
             self.request.user.is_superuser
         )
+        if not is_authorized:
+            logger.warning(f"Acceso denegado para la edición del artículo {articulo.titulo} por {self.request.user}")
+        return is_authorized
     
 
 class ArticuloDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -166,12 +190,16 @@ class ArticuloDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         """Permitir eliminar solo a autores, colaboradores o superusuarios."""
         articulo = self.get_object()
-        return (
+        is_authorized = (
             self.request.user == articulo.autor or 
             self.request.user.groups.filter(name='COLABORADOR').exists() or 
             self.request.user.is_superuser
         )
+        if not is_authorized:
+            logger.warning(f"Acceso denegado para la eliminación del artículo {articulo.titulo} por {self.request.user}")
+        return is_authorized
 
 
+# TODO borrar? voy a ver si anda o no.
 def orden_nuevo(request):
     articulos = Articulo.objects.all().order_by('-fecha_publicada')[:15]
