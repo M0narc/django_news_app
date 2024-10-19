@@ -2,14 +2,10 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, CustomLoginForm
 from utils.utils import redirect_authenticated_user
-<<<<<<< HEAD
-
-=======
 import logging
 
 
 logger = logging.getLogger(__name__)
->>>>>>> 64aefb8 (loggers)
 
 @redirect_authenticated_user
 def register(request):

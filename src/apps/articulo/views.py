@@ -7,10 +7,7 @@ from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
 from django.utils import timezone
-<<<<<<< HEAD
 from django.views import View
-=======
->>>>>>> 64aefb8 (loggers)
 from django.db.models import Q
 from .forms import ArticuloForm
 import logging
