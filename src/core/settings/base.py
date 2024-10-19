@@ -13,9 +13,6 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-print(BASE_DIR)
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -145,8 +142,6 @@ STATIC_ROOT = BASE_DIR.parent / "local-cdn"
 # Media -> Imagenes, audios, videos que van surgiendo o creciendo a lo largo de la ejecución.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-print(MEDIA_URL)
-print(MEDIA_ROOT)
 
 # Configuración para usar el servidor SMTP de Gmail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
