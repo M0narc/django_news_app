@@ -58,7 +58,20 @@
         <p>No hay comentarios aún.</p>
         {% endif %}
     </div>
-    
+
+    <!-- Formulario para editar comentario si hay uno en edición -->
+    {% if comentario_en_edicion %}
+    <div class="mt-4">
+        <h2 class="text-lg font-bold mb-4 text-blue-500">Editar comentario:</h2>
+        <form method="POST" action="{% url 'detalle_articulo' articulo.slug %}">
+            {% csrf_token %}
+            <input type="hidden" name="comentario_id" value="{{ comentario_en_edicion.id }}">
+            {{ form.as_p }}  <!-- Este es el formulario que contiene solo el comentario en edición -->
+            <button type="submit" name="editar_comentario" class="btn btn-primary">Guardar cambios</button>
+        </form>
+    </div>
+    {% endif %}
+
     <!-- Formulario para añadir un comentario -->
     <div class="agregar-comentario mt-6">
         {% if user.is_authenticated %}
@@ -72,4 +85,5 @@
         <p><a href="{% url 'login' %}" class="text-blue-500">Inicia sesión</a> para dejar un comentario.</p>
         {% endif %}
     </div>
+</div>
 {% endblock %}
