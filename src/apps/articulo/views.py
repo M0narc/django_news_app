@@ -5,9 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
-from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.utils.decorators import method_decorator
 from django.views import View
 from django.db.models import Q
 from .forms import ArticuloForm
