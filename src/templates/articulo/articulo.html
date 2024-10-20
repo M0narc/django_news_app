@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="bg-white rounded-lg shadow-md p-4 max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-4">
+<div class="bg-white rounded-lg shadow-md p-4 max-w-4xl mx-auto dark:bg-gray-900">
+    <div class="flex justify-between items-center mb-4 ">
         <h1 class="text-3xl font-bold underline text-black">{{ articulo.titulo }}</h1>
         <a href="{% url 'home' %}" class="text-2xl text-gray-500 hover:text-blue-700">✖</a>
     </div>
@@ -33,7 +33,7 @@
     {% endif %}
 
     <!-- Sección de comentarios -->
-    <div class="bg-white rounded-lg shadow-md p-4 max-w-4xl mx-auto">
+    <div class="bg-white rounded-lg shadow-md p-4 max-w-4xl mx-auto dark:bg-gray-900">
         <h2 class="text-lg font-bold mb-4 text-blue-500">Comentarios</h2>
         {% if comentarios %}
         <ul>
@@ -44,7 +44,7 @@
                 
                 <!-- Opciones de edición/eliminación de comentario -->
                 {% if comentario.autor == user or es_colaborador_o_admin %}
-                <a href="{% url 'detalle_articulo' articulo.slug %}?editar={{ comentario.id }}" class="text-blue-500 hover:text-blue-700">Editar</a>
+                <a href="{% url 'detalle_articulo' articulo.slug %}?editar={{ comentario.id }}" class="text-blue-500 hover:text-gray-900">Editar</a>
                 <span class="mx-2">|</span>
                 <form method="POST" action="{% url 'eliminar_comentario' comentario.id %}" style="display:inline;">
                     {% csrf_token %}
@@ -60,7 +60,8 @@
                         {% csrf_token %}
                         <input type="hidden" name="comentario_id" value="{{ comentario_en_edicion.id }}">
                         {{ form.as_p }}  <!-- Este es el formulario que contiene solo el comentario en edición -->
-                        <button type="submit" name="editar_comentario" class="btn btn-primary">Guardar cambios</button>
+                        <button type="submit" name="editar_comentario" class="text-blue-500 hover:text-gray-900 btn btn-primary">Guardar cambios</button>
+
                     </form>
                 </div>
                 {% endif %}

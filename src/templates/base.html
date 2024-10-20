@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     {% block link %}  {% endblock %}
 </head>
-<body>
+<body class= "dark:bg-gray-900">
     <!-- Navbar -->
     <header>
         {% include "navbar/navbar.html" %}
@@ -27,5 +27,6 @@
         <p>&copy;{% include 'footer/footer.html' %}</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="{% static 'js/claro_oscuro.js' %}"></script>
 </body>
 </html>
