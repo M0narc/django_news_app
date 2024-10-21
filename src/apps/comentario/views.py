@@ -12,10 +12,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def home_view(request):
-    logger.info("Vista 'home' accedida por %s", request.user if request.user.is_authenticated else "un usuario anónimo")
-    return render(request, 'comentario/home.html')
-
 @login_required
 def agregar_comentario(request, slug):
     logger.info("Intento de agregar comentario por el usuario: %s", request.user.username)
