@@ -204,8 +204,3 @@ class ArticuloDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if not is_authorized:
             logger.warning(f"Acceso denegado para la eliminación del artículo {articulo.titulo} por {self.request.user}")
         return is_authorized
-
-
-# TODO borrar? voy a ver si anda o no.
-def orden_nuevo(request):
-    articulos = Articulo.objects.all().order_by('-fecha_publicada')[:15]

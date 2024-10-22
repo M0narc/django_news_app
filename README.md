@@ -57,6 +57,4 @@
 
 # TODO
  - Despues podemos pasar todo el texto plano a .json para mejor legibilidad
- - agregar categorias a articulos
- - ver que no se redireccione a ciertas partes si no esta logeado ####
- - reverti los cambios...
+ - dejamos a drede fuera del .gitignore some media files para que los devs tengan imagenes con que testear

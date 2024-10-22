@@ -1,5 +1,6 @@
 # staticfiles/
-# media/
+media/
+!/media/default_avatars/
 local-cdn
 
 # Byte-compiled / optimized / DLL files
