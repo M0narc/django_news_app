@@ -5,6 +5,16 @@
 {% block content %}
 <div class="bg-white md:flex-row py-8 sm:py-32">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+        <!-- Mensaje de bienvenida y botón de creación de nuevo artículo -->
+        <div class="mb-6 text-center">
+          <p class="text-3xl font-semibold text-gray-800">Bienvenido <span class="font-bold text-blue-500">@{{ user.username }}</span>!</p>
+          <p class="text-xl text-gray-600">¿Te sientes inspirado hoy? Crea un nuevo artículo!</p>
+          <a href="{% url 'create_post' %}" class="inline-block font-semibold mt-4 bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-800 transition duration-300">
+            Crear un nuevo artículo
+          </a>
+        </div>
+
     <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Trending</h2>
     <p class="mt-2 text-lg leading-8 text-gray-600">Aprende de las nuevas tecnologías del mundo con nosotros.</p>
     
