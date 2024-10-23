@@ -1,6 +1,5 @@
 from django import forms
 from .models import Articulo
-from .models import Post
 
 class ArticuloForm(forms.ModelForm):
     class Meta:
