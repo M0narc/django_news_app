@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 # funcion para crear articulo/posteo
 def create_post(request):
+    categorias = Categoria.objects.all()  # Obtiene todas las categorías
     if request.method == 'POST':
         form = ArticuloForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
         if form.is_valid():
@@ -27,8 +28,12 @@ def create_post(request):
             return redirect('home')  # Redirigir a la página de inicio u otra página
     else:
         form = ArticuloForm()
-    
-    return render(request, 'articulo/crear_articulo.html', {'form': form})
+
+    # Aquí agregas las categorías al contexto
+    return render(request, 'articulo/crear_articulo.html', {
+        'form': form,
+        'categorias': categorias,  # Pasa las categorías al contexto
+    })
 
 
 
