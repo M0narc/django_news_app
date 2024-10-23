@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ArticuloDetalleView, ComentarioView, ArticuloUpdateView, ArticuloDeleteView,HomeView
+from .views import ArticuloDetalleView, ComentarioView, ArticuloUpdateView, ArticuloDeleteView, HomeView, create_post
 from apps.comentario.views import agregar_comentario
 
 urlpatterns = [
@@ -8,7 +8,6 @@ urlpatterns = [
     path('articulo/eliminar/<slug:slug>/', ArticuloDeleteView.as_view(), name='eliminar_articulo'),
     path('articulo/<slug:slug>/comentario/', agregar_comentario, name='agregar_comentario'), 
     path('articulo/<slug:slug>/comentar/', ComentarioView.as_view(), name='comentar_articulo'), 
-    path('articulo/<slug:slug>', ArticuloDetalleView.as_view(), name='detalle_articulo'),  
-    
-
+    path('articulo/<slug:slug>', ArticuloDetalleView.as_view(), name='detalle_articulo'),
+    path('create/', create_post, name='create_post'),  # Ahora está correctamente importado
 ]

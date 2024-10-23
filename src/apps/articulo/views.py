@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
@@ -14,6 +14,23 @@ import logging
 
 
 logger = logging.getLogger(__name__)
+
+
+# funcion para crear articulo/posteo
+def create_post(request):
+    if request.method == 'POST':
+        form = ArticuloForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
+        if form.is_valid():
+            nuevo_articulo = form.save(commit=False)
+            nuevo_articulo.autor = request.user  # Asignar el autor actual
+            nuevo_articulo.save()  # Guardar el artículo en la base de datos
+            return redirect('home')  # Redirigir a la página de inicio u otra página
+    else:
+        form = ArticuloForm()
+    
+    return render(request, 'articulo/crear_articulo.html', {'form': form})
+
+
 
 
 class HomeView(ListView):

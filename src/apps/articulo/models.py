@@ -44,3 +44,12 @@ class Articulo(models.Model):
         if not self.slug:
             self.slug = slugify(self.titulo)
         super().save(*args, **kwargs) 
+
+class Post(models.Model):
+    titulo = models.CharField(max_length=200)
+    contenido = models.TextField()
+    imagen = models.ImageField(upload_to='posts/', blank=True, null=True)  # Opcional si quieres imágenes
+    fecha_creacion = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return self.title
