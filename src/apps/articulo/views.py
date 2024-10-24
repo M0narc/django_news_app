@@ -74,6 +74,7 @@ class HomeView(ListView):
         context['query_actual'] = self.request.GET.get('q', '')
         context['filtro_actual'] = self.request.GET.get('filtro', '')
         context['orden_actual'] = self.request.GET.get('orden', '-fecha_publicada')
+        context['es_colaborador_o_admin'] = self.request.user.is_superuser or self.request.user.groups.filter(name='COLABORADOR').exists()
 
         return context
 
