@@ -1,6 +1,7 @@
 from django import forms
 from .models import Articulo
 
+
 class ArticuloForm(forms.ModelForm):
     class Meta:
         model = Articulo
@@ -17,3 +18,5 @@ class ArticuloForm(forms.ModelForm):
             'categoria': 'Categoría',
             'imagen_portada': 'Imagen de Portada',
         }
+
+        
