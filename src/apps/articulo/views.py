@@ -7,6 +7,7 @@ from apps.comentario.models import Comentario
 from .models import Categoria, Articulo
 from apps.comentario.forms import ComentarioForm 
 from django.utils import timezone
+from utils.query_set_helpers import QuerySetBase, FiltroCategoria, BusquedaTitulo, OrdenarArticulos
 from django.views import View
 from django.db.models import Q
 from .forms import ArticuloForm
@@ -50,20 +51,20 @@ class HomeView(ListView):
         orden = self.request.GET.get('orden', '-fecha_publicada')
 
         # Base queryset: artículos disponibles hasta la fecha actual
-        queryset = Articulo.objects.filter(fecha_publicada__lte=timezone.now())
+        queryset = QuerySetBase().obtener_queryset()
 
         # Aplicar filtro por categoría si existe
         if filtro:
-            queryset = queryset.filter(categoria__nombre=filtro)
+            queryset = FiltroCategoria().filtrar_por_categoria(queryset, filtro)
 
         # Aplicar búsqueda si se proporciona una query
         if query:
-            queryset = queryset.filter(
-                Q(titulo__icontains=query) | Q(categoria__nombre__icontains=query)
-            ).distinct()
-
+            BusquedaTitulo().buscar_por_query(queryset, query)
+            
         # Aplicar ordenación según el parámetro recibido
-        return queryset.order_by(orden)
+        queryset = OrdenarArticulos().ordenar(queryset, orden)
+        
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
